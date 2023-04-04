@@ -1,11 +1,13 @@
-import {Text} from 'react-native';
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import MainContainer from './src/navigation/MainContainer';
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <Text>App</Text>
+      <MainContainer />
+      <StatusBar backgroundColor="#FFF" barStyle={'dark-content'} />
     </SafeAreaProvider>
   );
 };
