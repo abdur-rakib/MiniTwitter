@@ -5,4 +5,5 @@ export const colors = {
   light_gray: '#AAB8C2',
   extra_light_gray: '#E1E8ED',
   extra_extra_light_gray: '#F5F8FA',
+  red: '#e84118',
 };

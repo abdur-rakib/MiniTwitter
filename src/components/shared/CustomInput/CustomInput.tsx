@@ -1,46 +1,68 @@
-import {Text, TextInput, View} from 'react-native';
-import React, {forwardRef, useState} from 'react';
-import {ScaledSheet} from 'react-native-size-matters';
+import {Text, TextInput, TextInputProps, View} from 'react-native';
+import React, {ForwardedRef, forwardRef, useState} from 'react';
+import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {spacing} from '../../../theme/spacing';
 import {colors} from '../../../theme/colors';
+import {ErrorMessage, useFormikContext} from 'formik';
+import {FORM_VALUES} from '../../../types';
 
-interface INPUT_PROPS {
+interface InputProps extends TextInputProps {
   label: string;
+  name: string;
 }
 
-const CustomInput: React.FC<INPUT_PROPS> = (
-  {label, ...otherProps},
-  ref: any,
-) => {
-  // component state
-  const [focused, setFocused] = useState(false);
-  return (
-    <View style={styles.inputContainer}>
-      <Text style={styles.labelStyle}>{label}</Text>
-      <TextInput
-        cursorColor={colors.blue}
-        style={[styles.inputStyle, focused && styles.focusedStyle]}
-        placeholder={label}
-        ref={ref}
-        placeholderTextColor={colors.dark_gray}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        {...otherProps}
-      />
-    </View>
-  );
-};
+const CustomInput = forwardRef<TextInput, InputProps>(
+  ({label, name, ...otherProps}, ref: ForwardedRef<TextInput> | undefined) => {
+    // component state
+    const [isFocused, setIsFocused] = useState<boolean>(false);
 
-export default forwardRef(CustomInput);
+    // formik staff
+    const {handleChange, values, setFieldTouched} =
+      useFormikContext<FORM_VALUES>();
+
+    return (
+      <View style={styles.inputContainer}>
+        <Text
+          style={values?.[name] ? styles.focusedLabelStyle : styles.labelStyle}>
+          {label}
+        </Text>
+        <TextInput
+          cursorColor={colors.blue}
+          style={[styles.inputStyle, isFocused && styles.focusedStyle]}
+          onChangeText={handleChange(name)}
+          value={values?.[name]}
+          onBlur={() => {
+            setFieldTouched(name);
+            setIsFocused(false);
+          }}
+          ref={ref}
+          onFocus={() => setIsFocused(true)}
+          {...otherProps}
+        />
+        {/* error block */}
+        <View style={styles.errorContainer}>
+          <ErrorMessage
+            render={text => <Text style={styles.errorText}>{text}</Text>}
+            name={name}
+          />
+        </View>
+      </View>
+    );
+  },
+);
+
+export default CustomInput;
 
 const styles = ScaledSheet.create({
   inputContainer: {
-    marginVertical: spacing[6],
+    position: 'relative',
+    marginVertical: spacing[5],
   },
   inputStyle: {
     borderBottomWidth: 1,
     borderBottomColor: colors.dark_gray,
-    padding: 0,
+    paddingVertical: spacing[2],
+    paddingHorizontal: 0,
     fontSize: spacing[14],
     fontWeight: '300',
   },
@@ -48,9 +70,24 @@ const styles = ScaledSheet.create({
     borderBottomColor: colors.blue,
   },
   labelStyle: {
-    fontSize: spacing[14],
+    position: 'absolute',
+    left: 0,
+    top: spacing[4],
+    fontSize: spacing[15],
+    color: colors.light_gray,
+  },
+  focusedLabelStyle: {
+    position: 'absolute',
+    left: 0,
+    top: -moderateScale(12),
+    fontSize: spacing[13],
     color: colors.dark_gray,
-    fontWeight: '300',
-    paddingVertical: spacing[6],
+  },
+  errorContainer: {
+    height: spacing[13],
+  },
+  errorText: {
+    color: colors.red,
+    fontSize: spacing[10],
   },
 });

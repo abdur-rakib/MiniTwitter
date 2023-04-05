@@ -6,11 +6,12 @@ import {spacing} from '../../theme/spacing';
 
 interface BUTTON_PROPS {
   label: string;
+  onPress: () => void;
 }
 
-const PrimaryButton: React.FC<BUTTON_PROPS> = ({label}) => {
+const PrimaryButton: React.FC<BUTTON_PROPS> = ({label, onPress}) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer}>
+    <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
