@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 const AuthContainer = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="Signup" component={SignUpScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
     </Stack.Navigator>
   );

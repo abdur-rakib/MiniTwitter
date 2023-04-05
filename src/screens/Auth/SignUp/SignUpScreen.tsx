@@ -1,12 +1,73 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useRef} from 'react';
+import CustomInput from '../../../components/shared/CustomInput';
+import {commonStyles} from '../../../styles/commonstyles';
+import {ScaledSheet} from 'react-native-size-matters';
+import Title from '../../../components/shared/Title';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {spacing} from '../../../theme/spacing';
+import {colors} from '../../../theme/colors';
+import PrimaryButton from '../../../components/PrimaryButton';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({navigation}) => {
+  // refs
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
   return (
-    <View>
-      <Text>SignUpScreen</Text>
-    </View>
+    <KeyboardAwareScrollView
+      contentContainerStyle={[commonStyles.container, styles.container]}>
+      {/* heading */}
+      <View style={styles.titleContainer}>
+        <Title title="Sign up to Twitter." />
+      </View>
+      {/* Form */}
+      <View style={styles.formContainer}>
+        <CustomInput
+          label="Username"
+          ref={usernameRef}
+          onSubmitEditing={() => emailRef.current.focus()}
+        />
+        <CustomInput
+          label="E-mail"
+          ref={emailRef}
+          onSubmitEditing={() => passwordRef.current.focus()}
+        />
+        <CustomInput label="Password" ref={passwordRef} secureTextEntry />
+      </View>
+      {/* action container */}
+      <View style={styles.actionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          style={styles.pressContainer}>
+          <Text style={styles.pressText}>Already have an account?</Text>
+        </TouchableOpacity>
+        <PrimaryButton label={'Sign up'} />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
+
+const styles = ScaledSheet.create({
+  container: {
+    paddingTop: spacing[100],
+  },
+  titleContainer: {
+    marginVertical: spacing[6],
+  },
+  formContainer: {
+    marginVertical: spacing[6],
+  },
+  actionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  pressContainer: {},
+  pressText: {
+    color: colors.dark_gray,
+    fontSize: spacing[14],
+  },
+});
 
 export default SignUpScreen;
