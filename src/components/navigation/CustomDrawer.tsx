@@ -94,7 +94,6 @@ const styles = ScaledSheet.create({
     width: spacing[32],
     borderRadius: spacing[32],
     marginBottom: spacing[10],
-    marginTop: spacing[4],
   },
   name: {
     fontSize: spacing[14],
@@ -114,6 +113,7 @@ const styles = ScaledSheet.create({
   followSection: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: spacing[3],
   },
   followNumber: {
     fontSize: spacing[12],

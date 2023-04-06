@@ -66,7 +66,7 @@ const styles = ScaledSheet.create({
   },
   inputStyle: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.light_gray,
+    borderBottomColor: colors.dark_gray,
     paddingVertical: spacing[2],
     paddingHorizontal: 0,
     fontSize: spacing[14],

@@ -32,7 +32,7 @@ const AppContainer = () => {
       }}>
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Home',
           drawerIcon: ({color}) => (
             <Octicons name="home" color={color} size={moderateScale(19)} />
@@ -43,7 +43,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Profile',
           drawerIcon: ({color}) => (
             <Octicons name="person" color={color} size={moderateScale(19)} />
@@ -54,7 +54,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Twitter Blue',
           drawerIcon: () => (
             <FontAwesome
@@ -69,7 +69,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Topics',
           drawerIcon: ({color}) => (
             <MaterialCommunityIcons
@@ -84,7 +84,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Bookmarks',
           drawerIcon: ({color}) => (
             <Feather name="bookmark" color={color} size={moderateScale(19)} />
@@ -95,7 +95,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Lists',
           drawerIcon: ({color}) => (
             <MaterialIcons
@@ -110,7 +110,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: CustomHeader,
+          header: () => <CustomHeader toggle />,
           drawerLabel: 'Twitter Circle',
           drawerIcon: ({color}) => (
             <Octicons
