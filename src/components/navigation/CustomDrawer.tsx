@@ -12,6 +12,7 @@ import {spacing} from '../../theme/spacing';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {commonStyles} from '../../styles/commonstyles';
 import MyText from '../shared/MyText';
+import {storage} from '../../services/storageService';
 
 const CustomDrawer = (props: any) => {
   return (
@@ -64,7 +65,10 @@ const CustomDrawer = (props: any) => {
           label="Sign Out"
           labelStyle={[styles.labelStyle, commonStyles.boldText]}
           style={styles.itemStyle}
-          onPress={() => console.log('Press logout')}
+          onPress={() => {
+            console.log('Press logout');
+            storage.set('isAuthenticated', false);
+          }}
         />
       </View>
     </View>
@@ -86,9 +90,9 @@ const styles = ScaledSheet.create({
   },
   avatarSection: {},
   avatar: {
-    height: spacing[40],
-    width: spacing[40],
-    borderRadius: spacing[40],
+    height: spacing[32],
+    width: spacing[32],
+    borderRadius: spacing[32],
     marginBottom: spacing[10],
     marginTop: spacing[4],
   },
