@@ -22,7 +22,7 @@ const styles = ScaledSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.8,
     borderBottomColor: colors.extra_light_gray,
     height: spacing[40],
     backgroundColor: colors.extra_extra_light_gray,

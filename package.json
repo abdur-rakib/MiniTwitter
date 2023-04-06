@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --active-arch-only",
-    "android:release": "react-native run-android --active-arch-only --variant release",
+    "android": "cd android && ./gradlew clean && cd .. && react-native run-android --active-arch-only",
+    "android:release": "cd android && ./gradlew clean && cd .. && react-native run-android --active-arch-only --variant release",
     "ios": "react-native run-ios",
     "ios:release": "react-native run-ios --configuration Release",
     "ios:light": "xcrun simctl ui booted appearance light",

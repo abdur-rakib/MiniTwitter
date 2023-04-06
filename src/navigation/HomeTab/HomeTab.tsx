@@ -97,7 +97,7 @@ const HomeTab = () => {
 const styles = ScaledSheet.create({
   tabBarStyle: {
     backgroundColor: colors.extra_extra_light_gray,
-    borderTopWidth: 0.5,
+    borderTopWidth: 0.8,
     borderTopColor: colors.extra_light_gray,
     elevation: 0,
   },
