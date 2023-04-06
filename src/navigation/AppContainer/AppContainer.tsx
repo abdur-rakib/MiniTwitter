@@ -14,6 +14,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DummyScreen from '../../screens/Dummy';
 import {spacing} from '../../theme/spacing';
+import {commonStyles} from '../../styles/commonstyles';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,7 +25,7 @@ const AppContainer = () => {
       screenOptions={{
         drawerContentStyle: styles.drawerContentStyle,
         drawerItemStyle: styles.drawerItemStyle,
-        drawerLabelStyle: styles.drawerLabelStyle,
+        drawerLabelStyle: [styles.drawerLabelStyle, commonStyles.boldText],
         drawerActiveBackgroundColor: colors.extra_extra_light_gray,
         drawerActiveTintColor: colors.black,
         drawerInactiveTintColor: colors.black,
@@ -138,8 +139,9 @@ const styles = ScaledSheet.create({
   },
   drawerLabelStyle: {
     color: colors.black,
-    fontWeight: '900',
     marginLeft: -moderateScale(10),
+    fontSize: spacing[14],
+    lineHeight: spacing[18],
   },
 });
 

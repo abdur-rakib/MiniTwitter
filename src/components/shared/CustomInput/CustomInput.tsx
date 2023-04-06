@@ -5,6 +5,8 @@ import {spacing} from '../../../theme/spacing';
 import {colors} from '../../../theme/colors';
 import {ErrorMessage, useFormikContext} from 'formik';
 import {FORM_VALUES} from '../../../types';
+import MyText from '../MyText';
+import {commonStyles} from '../../../styles/commonstyles';
 
 interface InputProps extends TextInputProps {
   label: string;
@@ -22,13 +24,17 @@ const CustomInput = forwardRef<TextInput, InputProps>(
 
     return (
       <View style={styles.inputContainer}>
-        <Text
+        <MyText
           style={values?.[name] ? styles.focusedLabelStyle : styles.labelStyle}>
           {label}
-        </Text>
+        </MyText>
         <TextInput
           cursorColor={colors.blue}
-          style={[styles.inputStyle, isFocused && styles.focusedStyle]}
+          style={[
+            styles.inputStyle,
+            commonStyles.regularText,
+            isFocused && styles.focusedStyle,
+          ]}
           onChangeText={handleChange(name)}
           value={values?.[name]}
           onBlur={() => {

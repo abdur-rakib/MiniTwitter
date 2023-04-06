@@ -1,4 +1,4 @@
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useRef} from 'react';
 import CustomInput from '../../../components/shared/CustomInput';
 import {commonStyles} from '../../../styles/commonstyles';
@@ -10,6 +10,7 @@ import {colors} from '../../../theme/colors';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {Formik} from 'formik';
 import {signupValidationSchema} from '../../../utils/schemas';
+import MyText from '../../../components/shared/MyText';
 
 interface LoginScreenProps {
   navigation: any;
@@ -67,7 +68,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             <TouchableOpacity
               onPress={() => navigation.navigate('Signup')}
               style={styles.pressContainer}>
-              <Text style={styles.pressText}>Don't have an account?</Text>
+              <MyText style={styles.pressText}>Don't have an account?</MyText>
             </TouchableOpacity>
             <PrimaryButton label={'Log in'} onPress={handleSubmit} />
           </View>

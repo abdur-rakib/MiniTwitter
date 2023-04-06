@@ -1,15 +1,19 @@
-import {Text} from 'react-native';
 import React from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
 import {spacing} from '../../../theme/spacing';
 import {colors} from '../../../theme/colors';
+import MyText from '../MyText';
 
-interface TITLE_PROPS {
+interface TitleProps {
   title: string;
 }
 
-const Title = ({title}: TITLE_PROPS) => {
-  return <Text style={styles.title}>{title}</Text>;
+const Title = ({title}: TitleProps) => {
+  return (
+    <MyText type="Light" style={styles.title}>
+      {title}
+    </MyText>
+  );
 };
 
 export default Title;

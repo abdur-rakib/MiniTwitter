@@ -1,8 +1,9 @@
-import {Text, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import React from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../theme/colors';
 import {spacing} from '../../theme/spacing';
+import MyText from '../shared/MyText';
 
 interface BUTTON_PROPS {
   label: string;
@@ -12,7 +13,9 @@ interface BUTTON_PROPS {
 const PrimaryButton: React.FC<BUTTON_PROPS> = ({label, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
-      <Text style={styles.buttonText}>{label}</Text>
+      <MyText type="Medium" style={styles.buttonText}>
+        {label}
+      </MyText>
     </TouchableOpacity>
   );
 };
