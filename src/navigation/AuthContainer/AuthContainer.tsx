@@ -13,8 +13,8 @@ const AuthContainer = () => {
         // eslint-disable-next-line react/no-unstable-nested-components
         header: (props: any) => <CustomHeader {...props} />,
       }}>
-      <Stack.Screen name="Signup" component={SignUpScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignUpScreen} />
     </Stack.Navigator>
   );
 };
