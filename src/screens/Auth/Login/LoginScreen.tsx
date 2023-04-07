@@ -1,6 +1,5 @@
-// @ts-nocheck
 import {TextInput, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import CustomInput from '../../../components/shared/CustomInput';
 import {commonStyles} from '../../../styles/commonstyles';
 import {ScaledSheet} from 'react-native-size-matters';
@@ -16,6 +15,7 @@ import {LoginValuesType} from '../../../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearUserUIState, userSelector} from '../../../redux/user/userSlice';
 import {Login} from '../../../api/userApi';
+import MyToast from '../../../components/shared/MyToast/MyToast';
 
 interface LoginScreenProps {
   navigation: any;
@@ -23,7 +23,7 @@ interface LoginScreenProps {
 
 const initialValues = {
   email: 'abdurrakib@gmail.com',
-  password: 'abdurrakib',
+  password: 'abdurraki',
 };
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
@@ -52,12 +52,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     dispatch(Login(values));
   };
 
-  // show error toast if error happens
-  useEffect(() => {
-    if (error) {
-      console.log({error});
-    }
-  }, [error]);
   return (
     <Formik
       initialValues={initialValues}
@@ -66,6 +60,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
       {({handleSubmit}) => (
         <KeyboardAwareScrollView
           contentContainerStyle={[commonStyles.container, styles.container]}>
+          {/* error message */}
+          {error && <MyToast message={error} visible={!!error} />}
           {/* heading */}
           <View style={styles.titleContainer}>
             <Title title="Log in to Twitter." />

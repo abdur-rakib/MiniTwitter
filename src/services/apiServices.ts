@@ -26,13 +26,9 @@ export const getService = async (request: any) => {
       method: 'get',
       url: request.endpoint,
     });
-    if (response.data.error) {
-      return Promise.reject(response.data.error || 'Something went wrong');
-    } else {
-      return response.data.result;
-    }
+    return response.data;
   } catch (error: any) {
-    return Promise.reject(error || 'Something went wrong');
+    return Promise.reject(error);
   }
 };
 
@@ -40,12 +36,10 @@ export const getService = async (request: any) => {
 export const postService = async (request: any) => {
   try {
     const response = await axios.post(request.endpoint, request.data);
-    if (response.data.error) {
-      return Promise.reject(response.data.error);
-    } else {
-      return response.data;
-    }
-  } catch (error) {
-    return Promise.reject(error);
+    return response.data;
+  } catch (error: any) {
+    return Promise.reject(
+      error?.response?.data?.error || 'Something went wrong',
+    );
   }
 };
