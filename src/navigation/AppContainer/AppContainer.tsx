@@ -43,7 +43,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: () => <CustomHeader toggle />,
+          headerShown: false,
           drawerLabel: 'Profile',
           drawerIcon: ({color}) => (
             <Octicons name="person" color={color} size={moderateScale(19)} />

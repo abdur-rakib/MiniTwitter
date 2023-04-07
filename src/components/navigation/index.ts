@@ -1,2 +1,3 @@
 import CustomDrawer from './CustomDrawer';
-export {CustomDrawer};
+import ProfileHeader from './ProfileHeader';
+export {CustomDrawer, ProfileHeader};

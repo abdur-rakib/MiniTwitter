@@ -103,7 +103,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 0.8,
     borderBottomColor: colors.extra_light_gray,
-    paddingVertical: spacing[10],
+    padding: spacing[10],
   },
   imageBlock: {
     flex: 0.15,
@@ -128,17 +128,17 @@ const styles = ScaledSheet.create({
   userName: {
     fontSize: spacing[12],
     marginRight: spacing[4],
-    color: colors.dark_gray,
+    color: colors.dark_light,
   },
   dot: {
     fontSize: spacing[12],
     marginRight: spacing[4],
-    color: colors.dark_gray,
+    color: colors.dark_light,
   },
   tweetTime: {
     fontSize: spacing[12],
     marginRight: spacing[4],
-    color: colors.dark_gray,
+    color: colors.dark_light,
   },
   content: {
     marginBottom: -moderateScale(8),

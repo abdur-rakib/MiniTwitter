@@ -1,11 +1,11 @@
 import {View} from 'react-native';
 import React, {useState} from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
-import {commonStyles} from '../../styles/commonstyles';
 import {FlashList} from '@shopify/flash-list';
 import data from '../../mockData/timeline.json';
 import {TweetType} from '../../types';
 import SingleTweet from '../../components/SingleTweet';
+import {colors} from '../../theme/colors';
 
 const HomeScreen = () => {
   // component state
@@ -14,7 +14,7 @@ const HomeScreen = () => {
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
   return (
-    <View style={[commonStyles.container, styles.container]}>
+    <View style={styles.container}>
       <FlashList
         data={tweets}
         renderItem={renderItem}
@@ -27,5 +27,8 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    backgroundColor: colors.extra_extra_light_gray,
+  },
 });

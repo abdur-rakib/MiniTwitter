@@ -15,6 +15,7 @@ import MyText from '../shared/MyText';
 import {storage} from '../../services/storageService';
 
 const CustomDrawer = (props: any) => {
+  const {navigation} = props;
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -25,7 +26,7 @@ const CustomDrawer = (props: any) => {
                 style={styles.avatar}
                 source={require('../../assets/images/user.jpg')}
               />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                 <MyText type="Bold" style={styles.name}>
                   Abdur Rakib
                 </MyText>
