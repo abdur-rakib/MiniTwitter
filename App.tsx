@@ -4,7 +4,11 @@ import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import MainContainer from './src/navigation/MainContainer';
 import {colors} from './src/theme/colors';
+import {Provider} from 'react-redux';
+import {persistStore} from 'redux-persist';
+import {PersistGate} from 'redux-persist/integration/react';
 import SplashScreen from 'react-native-splash-screen';
+import store from './src/redux/store';
 
 const App = () => {
   useEffect(() => {
@@ -12,14 +16,20 @@ const App = () => {
       SplashScreen.hide();
     }, 200);
   }, []);
+
+  const persistor = persistStore(store);
   return (
-    <SafeAreaProvider>
-      <MainContainer />
-      <StatusBar
-        backgroundColor={colors.extra_extra_light_gray}
-        barStyle={'dark-content'}
-      />
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <MainContainer />
+          <StatusBar
+            backgroundColor={colors.extra_extra_light_gray}
+            barStyle={'dark-content'}
+          />
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 

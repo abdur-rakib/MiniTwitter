@@ -26,11 +26,11 @@ const styles = ScaledSheet.create({
   buttonContainer: {
     borderRadius: spacing[2],
     backgroundColor: colors.blue,
+    paddingVertical: spacing[5],
+    paddingHorizontal: spacing[10],
   },
   buttonText: {
     color: colors.extra_extra_light_gray,
-    paddingVertical: spacing[7],
-    paddingHorizontal: spacing[11],
     fontSize: spacing[14],
   },
 });
