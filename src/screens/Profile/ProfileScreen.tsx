@@ -10,6 +10,8 @@ import {FlashList} from '@shopify/flash-list';
 import data from '../../mockData/timeline.json';
 import SingleTweet from '../../components/SingleTweet';
 import {TweetType} from '../../types';
+import {useSelector} from 'react-redux';
+import {userSelector} from '../../redux/user/userSlice';
 
 interface SingleInfoProps {
   text: string;
@@ -32,6 +34,8 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 const ProfileScreen = () => {
   // component state
   const [tweets] = useState(data.timeline);
+  // redux staff
+  const {name} = useSelector(userSelector);
 
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
@@ -56,9 +60,9 @@ const ProfileScreen = () => {
       <View style={styles.infoContainer}>
         <View style={styles.nameContainer}>
           <MyText style={styles.name} type="Bold">
-            Abdur Rakib
+            {name}
           </MyText>
-          <MyText style={styles.username}>@abdur-rakib</MyText>
+          <MyText style={styles.username}>@{name}</MyText>
         </View>
         {/* bio */}
         <View style={styles.bioContainer}>

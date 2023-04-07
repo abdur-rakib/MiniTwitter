@@ -5,7 +5,7 @@ import {Login, Signup} from '../../api/userApi';
 const initialState: UserState = {
   isAuthenticated: false,
   token: '',
-  userData: {},
+  name: '',
   isLoading: false,
   error: '',
 };
@@ -35,7 +35,8 @@ const userSlice = createSlice({
       .addCase(Login.fulfilled, (state, {payload}) => {
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.token = payload;
+        state.name = payload.name;
+        state.token = payload.token;
       })
       .addCase(Login.pending, state => {
         state.isLoading = true;

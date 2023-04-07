@@ -20,7 +20,7 @@ export interface TweetType {
 export interface UserState {
   isAuthenticated: boolean;
   token: string;
-  userData: {};
+  name: string;
   isLoading: boolean;
   error: string;
 }

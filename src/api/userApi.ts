@@ -11,7 +11,8 @@ const Login = createAsyncThunk(
         endpoint: 'login',
         data,
       });
-      return response;
+      const name = data.email.split('@')[0];
+      return {token: response, name};
     } catch (error) {
       return rejectWithValue(error);
     }

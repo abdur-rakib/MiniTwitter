@@ -12,12 +12,14 @@ import {spacing} from '../../theme/spacing';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {commonStyles} from '../../styles/commonstyles';
 import MyText from '../shared/MyText';
-import {useDispatch} from 'react-redux';
-import {clearUserState} from '../../redux/user/userSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearUserState, userSelector} from '../../redux/user/userSlice';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
+  // redux staff
   const dispatch = useDispatch();
+  const {name} = useSelector(userSelector);
 
   // handle sign out
   const handleSignOut = () => {
@@ -35,9 +37,9 @@ const CustomDrawer = (props: any) => {
               />
               <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                 <MyText type="Bold" style={styles.name}>
-                  Abdur Rakib
+                  {name}
                 </MyText>
-                <MyText style={styles.username}>@rakibcseruet</MyText>
+                <MyText style={styles.username}>@{name}</MyText>
               </TouchableOpacity>
             </View>
             <View style={styles.bottomInfoSection}>
