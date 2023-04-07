@@ -61,7 +61,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <KeyboardAwareScrollView
           contentContainerStyle={[commonStyles.container, styles.container]}>
           {/* error message */}
-          {error && <MyToast message={error} visible={!!error} />}
+          {!!error && <MyToast message={error} visible={!!error} />}
           {/* heading */}
           <View style={styles.titleContainer}>
             <Title title="Log in to Twitter." />

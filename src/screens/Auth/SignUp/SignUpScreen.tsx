@@ -1,4 +1,4 @@
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useRef} from 'react';
 import CustomInput from '../../../components/shared/CustomInput';
 import {commonStyles} from '../../../styles/commonstyles';
@@ -11,6 +11,11 @@ import PrimaryButton from '../../../components/PrimaryButton';
 import {Formik} from 'formik';
 import {signupValidationSchema} from '../../../utils/schemas';
 import MyText from '../../../components/shared/MyText';
+import {SignupValuesType} from '../../../types';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearUserUIState, userSelector} from '../../../redux/user/userSlice';
+import {Signup} from '../../../api/userApi';
+import MyToast from '../../../components/shared/MyToast/MyToast';
 
 interface SignupScreenProps {
   navigation: any;
@@ -23,6 +28,9 @@ const initialValues = {
 };
 
 const SignUpScreen: React.FC<SignupScreenProps> = ({navigation}) => {
+  // redux staff
+  const dispatch = useDispatch();
+  const {isLoading, error} = useSelector(userSelector);
   // refs
   const usernameRef = useRef<TextInput>();
   const emailRef = useRef<TextInput>();
@@ -36,17 +44,30 @@ const SignUpScreen: React.FC<SignupScreenProps> = ({navigation}) => {
       ref.current.focus();
     }
   };
+
+  // handle signup
+  const handleSignup = async (values: SignupValuesType) => {
+    // first clear prev auth UI state
+    dispatch(clearUserUIState());
+    // login
+    const {type} = await dispatch(Signup(values));
+    if (type === 'user/Signup/fulfilled') {
+      Alert.alert('', 'You have successfully signed up. Please login.', [
+        {text: 'OK', onPress: () => navigation.navigate('Login')},
+      ]);
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={signupValidationSchema}
-      onSubmit={values => {
-        console.log('test: ', values);
-        // storage.set('isAuthenticated', true);
-      }}>
+      onSubmit={handleSignup}>
       {({handleSubmit}) => (
         <KeyboardAwareScrollView
           contentContainerStyle={[commonStyles.container, styles.container]}>
+          {/* error message */}
+          {!!error && <MyToast message={error} visible={!!error} />}
           {/* heading */}
           <View style={styles.titleContainer}>
             <Title title="Sign up to Twitter." />
@@ -82,7 +103,11 @@ const SignUpScreen: React.FC<SignupScreenProps> = ({navigation}) => {
               style={styles.pressContainer}>
               <MyText style={styles.pressText}>Already have an account?</MyText>
             </TouchableOpacity>
-            <PrimaryButton label={'Sign up'} onPress={handleSubmit} />
+            <PrimaryButton
+              disabled={isLoading}
+              label={'Sign up'}
+              onPress={handleSubmit}
+            />
           </View>
         </KeyboardAwareScrollView>
       )}

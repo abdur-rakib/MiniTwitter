@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState, UserState} from '../../types';
-import {Login} from '../../api/userApi';
+import {Login, Signup} from '../../api/userApi';
 
 const initialState: UserState = {
   isAuthenticated: false,
@@ -30,6 +30,7 @@ const userSlice = createSlice({
 
   // extra reducers
   extraReducers: builder => {
+    // login
     builder
       .addCase(Login.fulfilled, (state, {payload}) => {
         state.isLoading = false;
@@ -40,6 +41,19 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(Login.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        state.error = payload as string;
+      });
+
+    // signup
+    builder
+      .addCase(Signup.fulfilled, state => {
+        state.isLoading = false;
+      })
+      .addCase(Signup.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(Signup.rejected, (state, {payload}) => {
         state.isLoading = false;
         state.error = payload as string;
       });
