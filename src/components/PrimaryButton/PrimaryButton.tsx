@@ -8,11 +8,15 @@ import MyText from '../shared/MyText';
 interface BUTTON_PROPS {
   label: string;
   onPress: () => void;
+  disabled: boolean;
 }
 
-const PrimaryButton: React.FC<BUTTON_PROPS> = ({label, onPress}) => {
+const PrimaryButton: React.FC<BUTTON_PROPS> = ({label, onPress, disabled}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={[styles.buttonContainer, disabled && styles.disabledButtonStyle]}>
       <MyText type="Medium" style={styles.buttonText}>
         {label}
       </MyText>
@@ -28,6 +32,9 @@ const styles = ScaledSheet.create({
     backgroundColor: colors.blue,
     paddingVertical: spacing[5],
     paddingHorizontal: spacing[10],
+  },
+  disabledButtonStyle: {
+    backgroundColor: colors.dark_light,
   },
   buttonText: {
     color: colors.extra_extra_light_gray,

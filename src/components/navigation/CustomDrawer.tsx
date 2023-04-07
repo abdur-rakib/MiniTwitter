@@ -12,10 +12,17 @@ import {spacing} from '../../theme/spacing';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {commonStyles} from '../../styles/commonstyles';
 import MyText from '../shared/MyText';
-import {storage} from '../../services/storageService';
+import {useDispatch} from 'react-redux';
+import {clearUserState} from '../../redux/user/userSlice';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
+  const dispatch = useDispatch();
+
+  // handle sign out
+  const handleSignOut = () => {
+    dispatch(clearUserState());
+  };
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -66,10 +73,7 @@ const CustomDrawer = (props: any) => {
           label="Sign Out"
           labelStyle={[styles.labelStyle, commonStyles.boldText]}
           style={styles.itemStyle}
-          onPress={() => {
-            console.log('Press logout');
-            storage.set('isAuthenticated', false);
-          }}
+          onPress={handleSignOut}
         />
       </View>
     </View>

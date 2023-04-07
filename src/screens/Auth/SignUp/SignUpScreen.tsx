@@ -11,7 +11,6 @@ import PrimaryButton from '../../../components/PrimaryButton';
 import {Formik} from 'formik';
 import {signupValidationSchema} from '../../../utils/schemas';
 import MyText from '../../../components/shared/MyText';
-import {storage} from '../../../services/storageService';
 
 interface SignupScreenProps {
   navigation: any;
@@ -42,8 +41,8 @@ const SignUpScreen: React.FC<SignupScreenProps> = ({navigation}) => {
       initialValues={initialValues}
       validationSchema={signupValidationSchema}
       onSubmit={values => {
-        console.log(values);
-        storage.set('isAuthenticated', true);
+        console.log('test: ', values);
+        // storage.set('isAuthenticated', true);
       }}>
       {({handleSubmit}) => (
         <KeyboardAwareScrollView

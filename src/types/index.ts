@@ -25,6 +25,21 @@ export interface UserState {
   error: string;
 }
 
-// Redux Type
+export interface LoginValuesType {
+  email: string;
+  password: string;
+}
+export interface SignupValuesType {
+  username: string;
+  email: string;
+  password: string;
+}
+
+// Redux
+export interface UiState {
+  isLoading: boolean;
+  error: string;
+}
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatchType = typeof store.dispatch;

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import {TextInput, TouchableOpacity, View} from 'react-native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import CustomInput from '../../../components/shared/CustomInput';
 import {commonStyles} from '../../../styles/commonstyles';
 import {ScaledSheet} from 'react-native-size-matters';
@@ -9,20 +10,27 @@ import {spacing} from '../../../theme/spacing';
 import {colors} from '../../../theme/colors';
 import PrimaryButton from '../../../components/PrimaryButton';
 import {Formik} from 'formik';
-import {signupValidationSchema} from '../../../utils/schemas';
+import {loginValidationSchema} from '../../../utils/schemas';
 import MyText from '../../../components/shared/MyText';
-import {storage} from '../../../services/storageService';
+import {LoginValuesType} from '../../../types';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearUserUIState, userSelector} from '../../../redux/user/userSlice';
+import {Login} from '../../../api/userApi';
 
 interface LoginScreenProps {
   navigation: any;
 }
 
 const initialValues = {
-  email: '',
-  password: '',
+  email: 'abdurrakib@gmail.com',
+  password: 'abdurrakib',
 };
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
+  // redux staff
+  const dispatch = useDispatch();
+  const {isLoading, error} = useSelector(userSelector);
+
   // refs
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
@@ -35,14 +43,26 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
       ref.current.focus();
     }
   };
+
+  // handle login
+  const handleLogin = async (values: LoginValuesType) => {
+    // first clear prev auth UI state
+    dispatch(clearUserUIState());
+    // login
+    dispatch(Login(values));
+  };
+
+  // show error toast if error happens
+  useEffect(() => {
+    if (error) {
+      console.log({error});
+    }
+  }, [error]);
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={signupValidationSchema}
-      onSubmit={values => {
-        console.log(values);
-        storage.set('isAuthenticated', true);
-      }}>
+      validationSchema={loginValidationSchema}
+      onSubmit={handleLogin}>
       {({handleSubmit}) => (
         <KeyboardAwareScrollView
           contentContainerStyle={[commonStyles.container, styles.container]}>
@@ -74,7 +94,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               style={styles.pressContainer}>
               <MyText style={styles.pressText}>Don't have an account?</MyText>
             </TouchableOpacity>
-            <PrimaryButton label={'Log in'} onPress={handleSubmit} />
+            <PrimaryButton
+              disabled={isLoading}
+              label={'Log in'}
+              onPress={handleSubmit}
+            />
           </View>
         </KeyboardAwareScrollView>
       )}

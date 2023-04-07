@@ -4,14 +4,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {ScaledSheet} from 'react-native-size-matters';
 import AppContainer from '../AppContainer';
 import AuthContainer from '../AuthContainer';
-import {storage} from '../../services/storageService';
+import {useSelector} from 'react-redux';
+import {userSelector} from '../../redux/user/userSlice';
 
 const MainContainer = () => {
-  const isAuthenticated = storage.getBoolean('isAuthenticated');
-  console.log(
-    '🚀 ~ file: MainContainer.tsx:11 ~ MainContainer ~ isAuthenticated:',
-    isAuthenticated,
-  );
+  const {isAuthenticated} = useSelector(userSelector);
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>

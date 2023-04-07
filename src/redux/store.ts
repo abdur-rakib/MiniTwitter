@@ -9,10 +9,18 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: reduxStorage,
+  blacklist: ['user'],
+};
+
+const userPersistConfig = {
+  key: 'user',
+  version: 1,
+  storage: reduxStorage,
+  blacklist: ['isLoading', 'error'],
 };
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  user: persistReducer(userPersistConfig, userReducer),
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
