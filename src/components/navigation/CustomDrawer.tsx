@@ -22,7 +22,7 @@ const CustomDrawer = (props: any) => {
   const {navigation} = props;
   // redux staff
   const dispatch = useDispatch();
-  const {name, token} = useSelector(userSelector);
+  const {name, token, myFollowers, myFollowings} = useSelector(userSelector);
 
   // handle sign out
   const handleSignOut = () => {
@@ -54,7 +54,7 @@ const CustomDrawer = (props: any) => {
                 onPress={() => navigation.navigate('FollowingStack')}
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  39
+                  {myFollowings.count}
                 </MyText>
                 <MyText style={styles.followText}>Following</MyText>
               </TouchableOpacity>
@@ -62,7 +62,7 @@ const CustomDrawer = (props: any) => {
                 onPress={() => navigation.navigate('FollowerStack')}
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  12
+                  {myFollowers.count}
                 </MyText>
                 <MyText style={styles.followText}>Followers</MyText>
               </TouchableOpacity>

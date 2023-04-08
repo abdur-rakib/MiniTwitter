@@ -71,7 +71,7 @@ const GetUserFollowers = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       const response = await getService({
-        endpoint: 'following',
+        endpoint: 'followers',
       });
       return response;
     } catch (error) {

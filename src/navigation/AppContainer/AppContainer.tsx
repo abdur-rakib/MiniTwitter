@@ -135,7 +135,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: () => <SecondaryHeader backTitle="Follower" />,
+          header: () => <SecondaryHeader backTitle="Followers" />,
           drawerLabel: 'Follower',
           drawerItemStyle: styles.hideItemStyle,
         }}
