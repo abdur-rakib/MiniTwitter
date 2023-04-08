@@ -50,4 +50,56 @@ const GetUserTweets = createAsyncThunk(
   },
 );
 
-export {Login, Signup, GetUserTweets};
+// get user followings
+const GetUserFollowings = createAsyncThunk(
+  'user/GetUserFollowings',
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await getService({
+        endpoint: 'following',
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+// get user followers
+const GetUserFollowers = createAsyncThunk(
+  'user/GetUserFollowers',
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await getService({
+        endpoint: 'following',
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+// get user followers
+const GetUsers = createAsyncThunk(
+  'user/GetUsers',
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await getService({
+        endpoint: 'users',
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export {
+  Login,
+  Signup,
+  GetUserTweets,
+  GetUserFollowings,
+  GetUserFollowers,
+  GetUsers,
+};

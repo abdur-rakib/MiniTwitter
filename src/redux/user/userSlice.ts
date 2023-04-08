@@ -1,12 +1,31 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState, UserState} from '../../types';
-import {GetUserTweets, Login, Signup} from '../../api/userApi';
+import {
+  GetUserFollowers,
+  GetUserFollowings,
+  GetUserTweets,
+  GetUsers,
+  Login,
+  Signup,
+} from '../../api/userApi';
 
 const initialState: UserState = {
   isAuthenticated: false,
   token: '',
   name: '',
   myTweets: [],
+  myFollowings: {
+    count: 0,
+    followings: [],
+  },
+  myFollowers: {
+    count: 0,
+    followers: [],
+  },
+  users: {
+    count: 0,
+    users: [],
+  },
   isLoading: false,
   error: '',
 };
@@ -70,6 +89,57 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(GetUserTweets.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        state.error = payload as string;
+      });
+
+    // get user followings
+    builder
+      .addCase(GetUserFollowings.fulfilled, (state, {payload}) => {
+        state.isLoading = false;
+        state.myFollowings = {
+          count: payload.count,
+          followings: payload.followings,
+        };
+      })
+      .addCase(GetUserFollowings.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(GetUserFollowings.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        state.error = payload as string;
+      });
+
+    // get user followers
+    builder
+      .addCase(GetUserFollowers.fulfilled, (state, {payload}) => {
+        state.isLoading = false;
+        state.myFollowers = {
+          count: payload.count,
+          followers: payload.followers,
+        };
+      })
+      .addCase(GetUserFollowers.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(GetUserFollowers.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        state.error = payload as string;
+      });
+
+    // get users
+    builder
+      .addCase(GetUsers.fulfilled, (state, {payload}) => {
+        state.isLoading = false;
+        state.users = {
+          count: payload.count,
+          users: payload.followers,
+        };
+      })
+      .addCase(GetUsers.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(GetUsers.rejected, (state, {payload}) => {
         state.isLoading = false;
         state.error = payload as string;
       });

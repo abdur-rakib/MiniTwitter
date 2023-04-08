@@ -28,6 +28,7 @@ const CustomDrawer = (props: any) => {
   const handleSignOut = () => {
     dispatch(clearUserState());
   };
+
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>

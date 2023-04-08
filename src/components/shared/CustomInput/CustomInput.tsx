@@ -4,7 +4,7 @@ import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {spacing} from '../../../theme/spacing';
 import {colors} from '../../../theme/colors';
 import {ErrorMessage, useFormikContext} from 'formik';
-import {FORM_VALUES} from '../../../types';
+import {FormValues} from '../../../types';
 import MyText from '../MyText';
 import {commonStyles} from '../../../styles/commonstyles';
 
@@ -20,7 +20,7 @@ const CustomInput = forwardRef<TextInput, InputProps>(
 
     // formik staff
     const {handleChange, values, setFieldTouched} =
-      useFormikContext<FORM_VALUES>();
+      useFormikContext<FormValues>();
 
     return (
       <View style={styles.inputContainer}>

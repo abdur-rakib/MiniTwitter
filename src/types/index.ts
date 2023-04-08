@@ -1,6 +1,6 @@
 import store from '../redux/store';
 
-export interface FORM_VALUES {
+export interface FormValues {
   [key: string]: string;
 }
 
@@ -17,11 +17,29 @@ export interface TweetType {
   user: TweetUserType;
 }
 
+export interface SingleUserType {
+  active: boolean;
+  email: string;
+  id: number;
+  join_date: string;
+  username: string;
+}
+
+export interface UsersType {
+  count: number;
+  followings?: SingleUserType[];
+  followers?: SingleUserType[];
+  users?: SingleUserType[];
+}
+
 export interface UserState {
   isAuthenticated: boolean;
   token: string;
   name: string;
   myTweets: TweetType[];
+  myFollowings: UsersType;
+  myFollowers: UsersType;
+  users: UsersType;
   isLoading: boolean;
   error: string;
 }
