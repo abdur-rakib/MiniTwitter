@@ -8,6 +8,16 @@ export const commonStyles = ScaledSheet.create({
     backgroundColor: colors.extra_extra_light_gray,
     paddingHorizontal: spacing[10],
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 0.8,
+    borderBottomColor: colors.extra_light_gray,
+    height: spacing[40],
+    backgroundColor: colors.extra_extra_light_gray,
+    paddingHorizontal: spacing[10],
+    position: 'relative',
+  },
   // text st
   boldText: {
     fontFamily: 'HelveticaNeue-Bold',

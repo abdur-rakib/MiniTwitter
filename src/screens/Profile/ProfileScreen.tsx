@@ -8,13 +8,15 @@ import {ProfileHeader} from '../../components/navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FlashList} from '@shopify/flash-list';
 import SingleTweet from '../../components/SingleTweet';
-import {TweetType} from '../../types';
+import {ComponentProps, TweetType} from '../../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '../../redux/user/userSlice';
 import {GetUserTweets} from '../../api/userApi';
 import FastImage from 'react-native-fast-image';
 import {AVATAR_URL} from '../../config/urls';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
+
+interface ProfileScreenProps extends ComponentProps {}
 
 interface SingleInfoProps {
   text: string;
@@ -34,7 +36,7 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
   );
 };
 
-const ProfileScreen = () => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // redux staff
   const dispatch = useDispatch();
   const {name, myTweets, token} = useSelector(userSelector);
@@ -93,13 +95,17 @@ const ProfileScreen = () => {
 
         {/* follow following container */}
         <View style={styles.bottomInfoSection}>
-          <TouchableOpacity style={styles.followSection}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('FollowingStack')}
+            style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
               39
             </MyText>
             <MyText style={styles.followText}>Following</MyText>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.followSection}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('FollowingStack')}
+            style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
               12
             </MyText>

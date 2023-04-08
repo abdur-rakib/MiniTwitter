@@ -41,6 +41,11 @@ export interface DecodedTokenType {
   exp: number;
 }
 
+// component props
+export interface ComponentProps {
+  navigation: any;
+}
+
 // Redux
 export interface UiState {
   isLoading: boolean;

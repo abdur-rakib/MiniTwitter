@@ -15,6 +15,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DummyScreen from '../../screens/Dummy';
 import {spacing} from '../../theme/spacing';
 import {commonStyles} from '../../styles/commonstyles';
+import FollowingStack from '../FollowingStack';
+import FollowerStack from '../FollowerStack';
+import SecondaryHeader from '../../components/shared/SecondaryHeader';
 
 const Drawer = createDrawerNavigator();
 
@@ -34,9 +37,7 @@ const AppContainer = () => {
         options={{
           header: () => <CustomHeader toggle />,
           drawerLabel: 'Home',
-          drawerIcon: ({color}) => (
-            <Octicons name="home" color={color} size={moderateScale(19)} />
-          ),
+          drawerItemStyle: styles.hideItemStyle,
         }}
         name="HomeTab"
         component={HomeTab}
@@ -123,6 +124,24 @@ const AppContainer = () => {
         name="TwitterCircle"
         component={DummyScreen}
       />
+      <Drawer.Screen
+        options={{
+          header: () => <SecondaryHeader />,
+          drawerLabel: 'Following',
+          drawerItemStyle: styles.hideItemStyle,
+        }}
+        name="FollowingStack"
+        component={FollowingStack}
+      />
+      <Drawer.Screen
+        options={{
+          header: () => <SecondaryHeader />,
+          drawerLabel: 'Follower',
+          drawerItemStyle: styles.hideItemStyle,
+        }}
+        name="FollowerStack"
+        component={FollowerStack}
+      />
     </Drawer.Navigator>
   );
 };
@@ -142,6 +161,9 @@ const styles = ScaledSheet.create({
     marginLeft: -moderateScale(10),
     fontSize: spacing[14],
     lineHeight: spacing[18],
+  },
+  hideItemStyle: {
+    height: 0,
   },
 });
 

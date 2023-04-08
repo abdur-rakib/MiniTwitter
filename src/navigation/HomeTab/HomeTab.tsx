@@ -2,7 +2,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/Home';
-import SearchScreen from '../../screens/Search';
 import DummyScreen from '../../screens/Dummy';
 import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../theme/colors';
@@ -45,7 +44,7 @@ const HomeTab = () => {
           ),
         }}
         name="Search"
-        component={SearchScreen}
+        component={DummyScreen}
       />
       <Tab.Screen
         options={{
