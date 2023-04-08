@@ -126,7 +126,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: () => <SecondaryHeader />,
+          header: () => <SecondaryHeader backTitle="Following" />,
           drawerLabel: 'Following',
           drawerItemStyle: styles.hideItemStyle,
         }}
@@ -135,7 +135,7 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: () => <SecondaryHeader />,
+          header: () => <SecondaryHeader backTitle="Follower" />,
           drawerLabel: 'Follower',
           drawerItemStyle: styles.hideItemStyle,
         }}
