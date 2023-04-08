@@ -1,5 +1,5 @@
-import {Image, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import MyText from '../../components/shared/MyText';
 import {spacing} from '../../theme/spacing';
@@ -7,11 +7,14 @@ import {colors} from '../../theme/colors';
 import {ProfileHeader} from '../../components/navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FlashList} from '@shopify/flash-list';
-import data from '../../mockData/timeline.json';
 import SingleTweet from '../../components/SingleTweet';
 import {TweetType} from '../../types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '../../redux/user/userSlice';
+import {GetUserTweets} from '../../api/userApi';
+import FastImage from 'react-native-fast-image';
+import {AVATAR_URL} from '../../config/urls';
+import {getLoggedInUserId} from '../../utils/commonFunctions';
 
 interface SingleInfoProps {
   text: string;
@@ -32,10 +35,14 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 };
 
 const ProfileScreen = () => {
-  // component state
-  const [tweets] = useState(data.timeline);
   // redux staff
-  const {name} = useSelector(userSelector);
+  const dispatch = useDispatch();
+  const {name, myTweets, token} = useSelector(userSelector);
+
+  // get user tweets
+  useEffect(() => {
+    myTweets.length === 0 && dispatch(GetUserTweets());
+  }, [dispatch, myTweets.length]);
 
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
@@ -44,10 +51,12 @@ const ProfileScreen = () => {
       <ProfileHeader />
       <View style={styles.topBox}>
         <View style={styles.profileContainer}>
-          <Image
+          <FastImage
             style={styles.profileIcon}
-            source={require('../../assets/images/user.jpg')}
-            resizeMode="contain"
+            source={{
+              uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
           />
         </View>
         <TouchableOpacity style={styles.actionContainer}>
@@ -102,7 +111,7 @@ const ProfileScreen = () => {
       {/* my tweet list  */}
       <View style={styles.listContainer}>
         <FlashList
-          data={tweets}
+          data={myTweets}
           renderItem={renderItem}
           estimatedItemSize={200}
         />

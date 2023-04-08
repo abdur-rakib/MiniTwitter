@@ -1,10 +1,15 @@
-import {Image, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../../theme/colors';
 import {spacing} from '../../../theme/spacing';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import FastImage from 'react-native-fast-image';
+import {AVATAR_URL} from '../../../config/urls';
+import {getLoggedInUserId} from '../../../utils/commonFunctions';
+import {useSelector} from 'react-redux';
+import {userSelector} from '../../../redux/user/userSlice';
 
 interface HeaderProps {
   toggle?: boolean;
@@ -14,22 +19,28 @@ const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
   // navigation staff
   const navigation: DrawerNavigationProp<ParamListBase, 'Home' | 'Profile'> =
     useNavigation();
+
+  // redux
+  const {token} = useSelector(userSelector);
   return (
     <View style={styles.headerContainer}>
       {toggle && (
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
           style={styles.imageContainer}>
-          <Image
+          <FastImage
             style={styles.image}
-            source={require('../../../assets/images/user.jpg')}
+            source={{
+              uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
           />
         </TouchableOpacity>
       )}
-      <Image
+      <FastImage
         style={styles.iconStyle}
         source={require('../../../assets/icons/twitter.png')}
-        resizeMode="contain"
+        resizeMode={FastImage.resizeMode.contain}
       />
     </View>
   );

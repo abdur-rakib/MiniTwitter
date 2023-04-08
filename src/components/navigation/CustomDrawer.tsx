@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import {Image, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {
@@ -14,12 +14,15 @@ import {commonStyles} from '../../styles/commonstyles';
 import MyText from '../shared/MyText';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearUserState, userSelector} from '../../redux/user/userSlice';
+import {AVATAR_URL} from '../../config/urls';
+import FastImage from 'react-native-fast-image';
+import {getLoggedInUserId} from '../../utils/commonFunctions';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
   // redux staff
   const dispatch = useDispatch();
-  const {name} = useSelector(userSelector);
+  const {name, token} = useSelector(userSelector);
 
   // handle sign out
   const handleSignOut = () => {
@@ -31,9 +34,12 @@ const CustomDrawer = (props: any) => {
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View style={styles.avatarSection}>
-              <Image
+              <FastImage
                 style={styles.avatar}
-                source={require('../../assets/images/user.jpg')}
+                source={{
+                  uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+                }}
+                resizeMode={FastImage.resizeMode.contain}
               />
               <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                 <MyText type="Bold" style={styles.name}>

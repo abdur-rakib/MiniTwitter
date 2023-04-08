@@ -5,16 +5,16 @@ import store from '../redux/store';
 axios.defaults.baseURL = BASE_URL;
 
 axios.interceptors.request.use(
-  function (request) {
-    // check if any token contains
+  async (config: any) => {
     const {token} = store.getState().user;
-
-    // set token to header
-    axios.defaults.headers['X-Jwt-Token'] = token ? `Bearer ${token}` : '';
-    return request;
+    config.headers = {
+      'X-Jwt-Token': token ? `Bearer ${token}` : '',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    return config;
   },
-  function (error) {
-    // Do something with request error
+  error => {
     return Promise.reject(error);
   },
 );
@@ -22,10 +22,7 @@ axios.interceptors.request.use(
 // get service
 export const getService = async (request: any) => {
   try {
-    const response = await axios({
-      method: 'get',
-      url: request.endpoint,
-    });
+    const response = await axios.get(request.endpoint);
     return response.data;
   } catch (error: any) {
     return Promise.reject(error);

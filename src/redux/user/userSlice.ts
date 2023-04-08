@@ -1,11 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {RootState, UserState} from '../../types';
-import {Login, Signup} from '../../api/userApi';
+import {GetUserTweets, Login, Signup} from '../../api/userApi';
 
 const initialState: UserState = {
   isAuthenticated: false,
   token: '',
   name: '',
+  myTweets: [],
   isLoading: false,
   error: '',
 };
@@ -55,6 +56,20 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(Signup.rejected, (state, {payload}) => {
+        state.isLoading = false;
+        state.error = payload as string;
+      });
+
+    // get user tweets
+    builder
+      .addCase(GetUserTweets.fulfilled, (state, {payload}) => {
+        state.isLoading = false;
+        state.myTweets = payload.my_tweets;
+      })
+      .addCase(GetUserTweets.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(GetUserTweets.rejected, (state, {payload}) => {
         state.isLoading = false;
         state.error = payload as string;
       });

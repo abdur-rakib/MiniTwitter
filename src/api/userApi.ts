@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {LoginValuesType, SignupValuesType} from '../types';
-import {postService} from '../services/apiServices';
+import {getService, postService} from '../services/apiServices';
 
 // login with email and password
 const Login = createAsyncThunk(
@@ -12,7 +12,7 @@ const Login = createAsyncThunk(
         data,
       });
       const name = data.email.split('@')[0];
-      return {token: response, name};
+      return {...response, name};
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -35,4 +35,19 @@ const Signup = createAsyncThunk(
   },
 );
 
-export {Login, Signup};
+// get user tweets
+const GetUserTweets = createAsyncThunk(
+  'user/GetUserTweets',
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await getService({
+        endpoint: 'my-tweets',
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export {Login, Signup, GetUserTweets};

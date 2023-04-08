@@ -1,4 +1,4 @@
-import {Image, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {TweetType} from '../../types';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
@@ -9,6 +9,8 @@ import {capitalizeFirstCharacter} from '../../utils/commonFunctions';
 import dayjs from 'dayjs';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FastImage from 'react-native-fast-image';
+import {AVATAR_URL} from '../../config/urls';
 
 interface PropType {
   item: TweetType;
@@ -19,9 +21,12 @@ const SingleTweet: React.FC<PropType> = ({item}) => {
     <TouchableOpacity style={styles.container}>
       {/* image block */}
       <View style={styles.imageBlock}>
-        <Image
+        <FastImage
           style={styles.userImage}
-          source={require('../../assets/images/user.jpg')}
+          source={{
+            uri: `${AVATAR_URL}${item.user.id}.jpg`,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
         />
       </View>
       {/* information block */}
@@ -141,7 +146,7 @@ const styles = ScaledSheet.create({
     color: colors.dark_light,
   },
   content: {
-    marginBottom: -moderateScale(8),
+    marginBottom: spacing[6],
   },
   contentText: {
     fontSize: spacing[12],

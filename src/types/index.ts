@@ -21,6 +21,7 @@ export interface UserState {
   isAuthenticated: boolean;
   token: string;
   name: string;
+  myTweets: TweetType[];
   isLoading: boolean;
   error: string;
 }
@@ -33,6 +34,11 @@ export interface SignupValuesType {
   username: string;
   email: string;
   password: string;
+}
+
+export interface DecodedTokenType {
+  id: string;
+  exp: number;
 }
 
 // Redux
