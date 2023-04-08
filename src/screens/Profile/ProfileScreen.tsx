@@ -38,7 +38,7 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   // redux staff
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const {name, myTweets, token, myFollowers, myFollowings} =
     useSelector(userSelector);
 
@@ -97,7 +97,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
         {/* follow following container */}
         <View style={styles.bottomInfoSection}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('FollowingStack')}
+            onPress={() =>
+              navigation.navigate('FollowStack', {
+                screen: 'Following',
+              })
+            }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
               {myFollowings.count}
@@ -105,7 +109,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
             <MyText style={styles.followText}>Following</MyText>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('FollowingStack')}
+            onPress={() =>
+              navigation.navigate('FollowStack', {
+                screen: 'Follower',
+              })
+            }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
               {myFollowers.count}

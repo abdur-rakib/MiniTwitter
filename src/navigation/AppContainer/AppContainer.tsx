@@ -15,9 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DummyScreen from '../../screens/Dummy';
 import {spacing} from '../../theme/spacing';
 import {commonStyles} from '../../styles/commonstyles';
-import FollowingStack from '../FollowingStack';
-import FollowerStack from '../FollowerStack';
-import SecondaryHeader from '../../components/shared/SecondaryHeader';
+import FollowStack from '../FollowStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -126,21 +124,11 @@ const AppContainer = () => {
       />
       <Drawer.Screen
         options={{
-          header: () => <SecondaryHeader backTitle="Following" />,
-          drawerLabel: 'Following',
+          headerShown: false,
           drawerItemStyle: styles.hideItemStyle,
         }}
-        name="FollowingStack"
-        component={FollowingStack}
-      />
-      <Drawer.Screen
-        options={{
-          header: () => <SecondaryHeader backTitle="Followers" />,
-          drawerLabel: 'Follower',
-          drawerItemStyle: styles.hideItemStyle,
-        }}
-        name="FollowerStack"
-        component={FollowerStack}
+        name="FollowStack"
+        component={FollowStack}
       />
     </Drawer.Navigator>
   );

@@ -11,14 +11,24 @@ import {useNavigation} from '@react-navigation/native';
 
 interface HeaderProps {
   backTitle: string;
+  right?: boolean;
 }
 
-const SecondaryHeader: React.FC<HeaderProps> = ({backTitle}) => {
-  const navigation = useNavigation();
+const SecondaryHeader: React.FC<HeaderProps> = ({
+  backTitle,
+  right,
+  ...rest
+}) => {
+  console.log(rest);
+  const navigation: any = useNavigation();
+
+  const handleBackAction = () => {
+    navigation.goBack();
+  };
   return (
     <View style={[commonStyles.headerContainer, styles.container]}>
       {/* left */}
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.left}>
+      <TouchableOpacity onPress={handleBackAction} style={styles.left}>
         <Ionicons
           name="arrow-back"
           color={colors.black}
@@ -29,13 +39,17 @@ const SecondaryHeader: React.FC<HeaderProps> = ({backTitle}) => {
         </MyText>
       </TouchableOpacity>
       {/* right */}
-      <TouchableOpacity style={styles.right}>
-        <Octicons
-          name="person-add"
-          color={colors.black}
-          size={moderateScale(20)}
-        />
-      </TouchableOpacity>
+      {right && (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Users')}
+          style={styles.right}>
+          <Octicons
+            name="person-add"
+            color={colors.black}
+            size={moderateScale(20)}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

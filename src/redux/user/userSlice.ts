@@ -133,7 +133,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.users = {
           count: payload.count,
-          users: payload.followers,
+          users: payload.users,
         };
       })
       .addCase(GetUsers.pending, state => {

@@ -51,7 +51,11 @@ const CustomDrawer = (props: any) => {
             </View>
             <View style={styles.bottomInfoSection}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('FollowingStack')}
+                onPress={() =>
+                  navigation.navigate('FollowStack', {
+                    screen: 'Following',
+                  })
+                }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
                   {myFollowings.count}
@@ -59,7 +63,11 @@ const CustomDrawer = (props: any) => {
                 <MyText style={styles.followText}>Following</MyText>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate('FollowerStack')}
+                onPress={() =>
+                  navigation.navigate('FollowStack', {
+                    screen: 'Follower',
+                  })
+                }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
                   {myFollowers.count}

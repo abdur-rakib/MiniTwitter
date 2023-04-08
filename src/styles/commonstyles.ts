@@ -17,6 +17,7 @@ export const commonStyles = ScaledSheet.create({
     backgroundColor: colors.extra_extra_light_gray,
     paddingHorizontal: spacing[10],
     position: 'relative',
+    elevation: 0,
   },
   // text st
   boldText: {
