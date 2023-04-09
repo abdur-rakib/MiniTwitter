@@ -1,6 +1,7 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {useDispatch} from 'react-redux';
 import userReducer from './user/userSlice';
+import tweetReducer from './tweet/tweetSlice';
 import {AppDispatchType} from '../types';
 import {reduxStorage} from '../services/storageService';
 import {persistReducer} from 'redux-persist';
@@ -9,7 +10,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: reduxStorage,
-  blacklist: ['user'],
+  blacklist: ['user', 'tweet'],
 };
 
 const userPersistConfig = {
@@ -18,9 +19,16 @@ const userPersistConfig = {
   storage: reduxStorage,
   blacklist: ['isLoading', 'error'],
 };
+const tweetPersistConfig = {
+  key: 'tweet',
+  version: 1,
+  storage: reduxStorage,
+  blacklist: ['isLoading', 'error'],
+};
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
+  tweet: persistReducer(tweetPersistConfig, tweetReducer),
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

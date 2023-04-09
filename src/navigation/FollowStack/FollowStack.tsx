@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import FollowingScreen from '../../screens/Following';
 import UsersScreen from '../../screens/Users';
 import SecondaryHeader from '../../components/shared/SecondaryHeader';
+import FollowerScreen from '../../screens/Follower';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,7 @@ const FollowStack = () => {
           ),
         }}
         name="Follower"
-        component={FollowingScreen}
+        component={FollowerScreen}
       />
       <Stack.Screen
         options={{

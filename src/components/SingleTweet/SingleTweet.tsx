@@ -108,7 +108,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 0.8,
     borderBottomColor: colors.extra_light_gray,
-    paddingHorizontal: spacing[10],
+    paddingHorizontal: spacing[12],
     paddingVertical: spacing[8],
   },
   imageBlock: {

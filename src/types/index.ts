@@ -32,7 +32,7 @@ export interface UsersType {
   users?: SingleUserType[];
 }
 
-export interface UserState {
+export interface UsersInterface {
   isAuthenticated: boolean;
   token: string;
   name: string;
@@ -40,6 +40,11 @@ export interface UserState {
   myFollowings: UsersType;
   myFollowers: UsersType;
   users: UsersType;
+  isLoading: boolean;
+  error: string;
+}
+export interface TweetInterface {
+  tweets: {count: number; timeline: TweetType[]};
   isLoading: boolean;
   error: string;
 }

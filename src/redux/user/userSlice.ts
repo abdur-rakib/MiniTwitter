@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {RootState, UserState} from '../../types';
+import {RootState, UsersInterface} from '../../types';
 import {
   GetUserFollowers,
   GetUserFollowings,
@@ -9,7 +9,7 @@ import {
   Signup,
 } from '../../api/userApi';
 
-const initialState: UserState = {
+const initialState: UsersInterface = {
   isAuthenticated: false,
   token: '',
   name: '',

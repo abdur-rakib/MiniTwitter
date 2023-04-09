@@ -14,12 +14,7 @@ interface HeaderProps {
   right?: boolean;
 }
 
-const SecondaryHeader: React.FC<HeaderProps> = ({
-  backTitle,
-  right,
-  ...rest
-}) => {
-  console.log(rest);
+const SecondaryHeader: React.FC<HeaderProps> = ({backTitle, right}) => {
   const navigation: any = useNavigation();
 
   const handleBackAction = () => {

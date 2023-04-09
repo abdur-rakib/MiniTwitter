@@ -6,7 +6,7 @@ export const commonStyles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.extra_extra_light_gray,
-    paddingHorizontal: spacing[10],
+    paddingHorizontal: spacing[12],
   },
   headerContainer: {
     flexDirection: 'row',
@@ -15,7 +15,7 @@ export const commonStyles = ScaledSheet.create({
     borderBottomColor: colors.extra_light_gray,
     height: spacing[40],
     backgroundColor: colors.extra_extra_light_gray,
-    paddingHorizontal: spacing[10],
+    paddingHorizontal: spacing[12],
     position: 'relative',
     elevation: 0,
   },
