@@ -39,11 +39,6 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Lato-Black.ttf</string>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-Light.ttf</string>
-		<string>Lato-Regular.ttf</string>
-		<string>Lato-Semibold.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
@@ -60,10 +55,10 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
-		<string>HelveticaNeue-Bold.otf</string>
-		<string>HelveticaNeue-Light.otf</string>
-		<string>HelveticaNeue-Medium.otf</string>
-		<string>HelveticaNeue-Regular.otf</string>
+		<string>HelveticaNeue-Bold.ttf</string>
+		<string>HelveticaNeue-Light.ttf</string>
+		<string>HelveticaNeue-Medium.ttf</string>
+		<string>HelveticaNeue-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

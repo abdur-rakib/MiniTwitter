@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {TouchableOpacity, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import MyText from '../../components/shared/MyText';
 import {spacing} from '../../theme/spacing';
@@ -15,6 +16,7 @@ import {GetUserTweets} from '../../api/userApi';
 import FastImage from 'react-native-fast-image';
 import {AVATAR_URL} from '../../config/urls';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
+import {RefreshControl} from 'react-native-gesture-handler';
 
 interface ProfileScreenProps extends ComponentProps {}
 
@@ -37,15 +39,27 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 };
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
+  // component state
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [pageCurrent, setPageCurrent] = useState<number>(1);
   // redux staff
   const dispatch: any = useDispatch();
   const {name, myTweets, token, myFollowers, myFollowings} =
     useSelector(userSelector);
 
-  // get user tweets
+  const fetchUserTweets = async (page: number) => {
+    dispatch(GetUserTweets(page));
+    setRefreshing(false);
+  };
+
   useEffect(() => {
-    myTweets.length === 0 && dispatch(GetUserTweets());
-  }, [dispatch, myTweets.length]);
+    pageCurrent > 1 && fetchUserTweets(pageCurrent);
+  }, [pageCurrent]);
+
+  const initialFetch = () => {
+    fetchUserTweets(1);
+    setPageCurrent(1);
+  };
 
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
@@ -104,7 +118,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
             }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
-              {myFollowings.count}
+              {myFollowings.length}
             </MyText>
             <MyText style={styles.followText}>Following</MyText>
           </TouchableOpacity>
@@ -116,7 +130,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
             }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
-              {myFollowers.count}
+              {myFollowers.length}
             </MyText>
             <MyText style={styles.followText}>Followers</MyText>
           </TouchableOpacity>
@@ -129,6 +143,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
           data={myTweets}
           renderItem={renderItem}
           estimatedItemSize={200}
+          onEndReached={() => setPageCurrent(prev => prev + 1)}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={initialFetch} />
+          }
         />
       </View>
     </View>

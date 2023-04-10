@@ -14,18 +14,9 @@ const initialState: UsersInterface = {
   token: '',
   name: '',
   myTweets: [],
-  myFollowings: {
-    count: 0,
-    followings: [],
-  },
-  myFollowers: {
-    count: 0,
-    followers: [],
-  },
-  users: {
-    count: 0,
-    users: [],
-  },
+  myFollowings: [],
+  myFollowers: [],
+  users: [],
   isLoading: false,
   error: '',
 };
@@ -82,8 +73,12 @@ const userSlice = createSlice({
     // get user tweets
     builder
       .addCase(GetUserTweets.fulfilled, (state, {payload}) => {
+        if (payload.page === 1) {
+          state.myTweets = payload.my_tweets;
+        } else {
+          state.myTweets = [...state.myTweets, ...payload.my_tweets];
+        }
         state.isLoading = false;
-        state.myTweets = payload.my_tweets;
       })
       .addCase(GetUserTweets.pending, state => {
         state.isLoading = true;
@@ -96,11 +91,12 @@ const userSlice = createSlice({
     // get user followings
     builder
       .addCase(GetUserFollowings.fulfilled, (state, {payload}) => {
+        if (payload.page === 1) {
+          state.myFollowings = payload.followings;
+        } else {
+          state.myFollowings = [...state.myFollowings, ...payload.followings];
+        }
         state.isLoading = false;
-        state.myFollowings = {
-          count: payload.count,
-          followings: payload.followings,
-        };
       })
       .addCase(GetUserFollowings.pending, state => {
         state.isLoading = true;
@@ -113,11 +109,12 @@ const userSlice = createSlice({
     // get user followers
     builder
       .addCase(GetUserFollowers.fulfilled, (state, {payload}) => {
+        if (payload.page === 1) {
+          state.myFollowers = payload.followers;
+        } else {
+          state.myFollowers = [...state.myFollowers, ...payload.followers];
+        }
         state.isLoading = false;
-        state.myFollowers = {
-          count: payload.count,
-          followers: payload.followers,
-        };
       })
       .addCase(GetUserFollowers.pending, state => {
         state.isLoading = true;
@@ -130,11 +127,12 @@ const userSlice = createSlice({
     // get users
     builder
       .addCase(GetUsers.fulfilled, (state, {payload}) => {
+        if (payload.page === 1) {
+          state.users = payload.users;
+        } else {
+          state.users = [...state.users, ...payload.users];
+        }
         state.isLoading = false;
-        state.users = {
-          count: payload.count,
-          users: payload.users,
-        };
       })
       .addCase(GetUsers.pending, state => {
         state.isLoading = true;

@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, {useEffect} from 'react';
 import ProfileScreen from '../../screens/Profile';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import HomeTab from '../HomeTab';
 import CustomHeader from '../../components/shared/CustomHeader';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {colors} from '../../theme/colors';
@@ -16,10 +15,27 @@ import DummyScreen from '../../screens/Dummy';
 import {spacing} from '../../theme/spacing';
 import {commonStyles} from '../../styles/commonstyles';
 import FollowStack from '../FollowStack';
+import HomeStack from '../HomeStack';
+import store from '../../redux/store';
+import {GetTweets} from '../../api/tweetApi';
+import {
+  GetUserFollowers,
+  GetUserFollowings,
+  GetUserTweets,
+  GetUsers,
+} from '../../api/userApi';
 
 const Drawer = createDrawerNavigator();
 
 const AppContainer = () => {
+  useEffect(() => {
+    // get all tweets, all followings, all followers, all users
+    store.dispatch(GetTweets(1));
+    store.dispatch(GetUsers(1));
+    store.dispatch(GetUserFollowers(1));
+    store.dispatch(GetUserFollowings(1));
+    store.dispatch(GetUserTweets(1));
+  }, []);
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawer}
@@ -33,12 +49,12 @@ const AppContainer = () => {
       }}>
       <Drawer.Screen
         options={{
-          header: () => <CustomHeader toggle />,
+          headerShown: false,
           drawerLabel: 'Home',
           drawerItemStyle: styles.hideItemStyle,
         }}
-        name="HomeTab"
-        component={HomeTab}
+        name="HomeStack"
+        component={HomeStack}
       />
       <Drawer.Screen
         options={{

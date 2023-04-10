@@ -37,14 +37,15 @@ export interface UsersInterface {
   token: string;
   name: string;
   myTweets: TweetType[];
-  myFollowings: UsersType;
-  myFollowers: UsersType;
-  users: UsersType;
+  myFollowings: SingleUserType[];
+  myFollowers: SingleUserType[];
+  users: SingleUserType[];
   isLoading: boolean;
   error: string;
 }
 export interface TweetInterface {
-  tweets: {count: number; timeline: TweetType[]};
+  tweets: TweetType[];
+  // tweets: {count: number; timeline: TweetType[]};
   isLoading: boolean;
   error: string;
 }

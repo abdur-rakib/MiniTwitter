@@ -1,19 +1,36 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {getService} from '../services/apiServices';
+import {getService, postService} from '../services/apiServices';
+import {SIZE} from '../utils/constants';
 
 // get user tweets
 const GetTweets = createAsyncThunk(
   'tweet/GetTweets',
-  async (_, {rejectWithValue}) => {
+  async (page: number, {rejectWithValue}) => {
     try {
       const response = await getService({
-        endpoint: 'timeline',
+        endpoint: `timeline?page=${page}&size=${SIZE}`,
       });
-      return response;
+      return {...response, page};
     } catch (error) {
       return rejectWithValue(error);
     }
   },
 );
 
-export {GetTweets};
+// create tweet
+const AddTweet = createAsyncThunk(
+  'tweet/AddTweet',
+  async (data: {content: string}, {rejectWithValue}) => {
+    try {
+      const response = await postService({
+        endpoint: 'tweet',
+        data,
+      });
+      return response.tweet;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export {GetTweets, AddTweet};

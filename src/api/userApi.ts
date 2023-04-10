@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {LoginValuesType, SignupValuesType} from '../types';
 import {getService, postService} from '../services/apiServices';
+import {SIZE} from '../utils/constants';
 
 // login with email and password
 const Login = createAsyncThunk(
@@ -38,12 +39,12 @@ const Signup = createAsyncThunk(
 // get user tweets
 const GetUserTweets = createAsyncThunk(
   'user/GetUserTweets',
-  async (_, {rejectWithValue}) => {
+  async (page: number, {rejectWithValue}) => {
     try {
       const response = await getService({
-        endpoint: 'my-tweets',
+        endpoint: `my-tweets?page=${page}&size=${SIZE}`,
       });
-      return response;
+      return {...response, page};
     } catch (error) {
       return rejectWithValue(error);
     }
