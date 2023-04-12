@@ -15,8 +15,6 @@ import MyText from '../../../components/shared/MyText';
 import {LoginValuesType} from '../../../types';
 import MyToast from '../../../components/shared/MyToast/MyToast';
 import {useLoginMutation} from '../../../api/authApi';
-import {useSelector} from 'react-redux';
-import {authSelector} from '../../../redux/auth/authSlice';
 
 interface LoginScreenProps {
   navigation: any;
@@ -29,9 +27,6 @@ const initialValues = {
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [login, {isLoading, error, isError}] = useLoginMutation();
-  // redux
-  const auth = useSelector(authSelector);
-  console.log('🚀 ~ file: LoginScreen.tsx:34 ~ auth:', auth);
 
   // refs
   const emailRef = useRef<TextInput>();

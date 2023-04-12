@@ -7,15 +7,16 @@ import {DrawerNavigationProp} from '@react-navigation/drawer';
 import FastImage from 'react-native-fast-image';
 import {AVATAR_URL} from '../../../config/urls';
 import {getLoggedInUserId} from '../../../utils/commonFunctions';
-import {useSelector} from 'react-redux';
-import {userSelector} from '../../../redux/user/userSlice';
 import {commonStyles} from '../../../styles/commonstyles';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../../redux/auth/authSlice';
 
 interface HeaderProps {
   toggle?: boolean;
 }
 
 const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
+  const {token} = useSelector(authSelector);
   // navigation staff
   const navigation: DrawerNavigationProp<ParamListBase, 'Home' | 'Profile'> =
     useNavigation();
@@ -28,13 +29,13 @@ const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
           style={styles.imageContainer}>
-          {/* <FastImage
+          <FastImage
             style={styles.image}
             source={{
-              uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+              uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
             }}
             resizeMode={FastImage.resizeMode.contain}
-          /> */}
+          />
         </TouchableOpacity>
       )}
       <FastImage

@@ -1,36 +1,29 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {getService, postService} from '../services/apiServices';
-import {SIZE} from '../utils/constants';
+import {api} from '.';
+import {TweetType} from '../types';
 
-// get user tweets
-const GetTweets = createAsyncThunk(
-  'tweet/GetTweets',
-  async (page: number, {rejectWithValue}) => {
-    try {
-      const response = await getService({
-        endpoint: `timeline?page=${page}&size=${SIZE}`,
-      });
-      return {...response, page};
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+export const tweetsApi = api.injectEndpoints({
+  endpoints: build => ({
+    getTweets: build.query<{timeline: TweetType[]}, void>({
+      query: () => ({url: 'timeline'}),
+      // providesTags: (result = []) => [
+      //   ...result.map(({id}) => ({type: 'Posts', id} as const)),
+      //   {type: 'Posts' as const, id: 'LIST'},
+      // ],
+      transformErrorResponse: error => error.data,
+    }),
+    // addPost: build.mutation<Post, Partial<Post>>({
+    //   query: body => ({
+    //     url: `posts`,
+    //     method: 'POST',
+    //     body,
+    //   }),
+    //   invalidatesTags: [{type: 'Posts', id: 'LIST'}],
+    // }),
+  }),
+});
 
-// create tweet
-const AddTweet = createAsyncThunk(
-  'tweet/AddTweet',
-  async (data: {content: string}, {rejectWithValue}) => {
-    try {
-      const response = await postService({
-        endpoint: 'tweet',
-        data,
-      });
-      return response.tweet;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+export const {useGetTweetsQuery} = tweetsApi;
 
-export {GetTweets, AddTweet};
+export const {
+  endpoints: {getTweets},
+} = tweetsApi;

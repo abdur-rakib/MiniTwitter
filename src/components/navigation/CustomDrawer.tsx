@@ -13,20 +13,20 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {commonStyles} from '../../styles/commonstyles';
 import MyText from '../shared/MyText';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearUserState, userSelector} from '../../redux/user/userSlice';
 import {AVATAR_URL} from '../../config/urls';
 import FastImage from 'react-native-fast-image';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
+import {authSelector, logout} from '../../redux/auth/authSlice';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
   // redux staff
   const dispatch = useDispatch();
-  const {name, token, myFollowers, myFollowings} = useSelector(userSelector);
+  const {name, token} = useSelector(authSelector);
 
   // handle sign out
   const handleSignOut = () => {
-    dispatch(clearUserState());
+    dispatch(logout());
   };
 
   return (
@@ -38,7 +38,7 @@ const CustomDrawer = (props: any) => {
               <FastImage
                 style={styles.avatar}
                 source={{
-                  uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+                  uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
                 }}
                 resizeMode={FastImage.resizeMode.contain}
               />
@@ -58,7 +58,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {myFollowings.length}
+                  {/* {myFollowings.length} */}
                 </MyText>
                 <MyText style={styles.followText}>Following</MyText>
               </TouchableOpacity>
@@ -70,7 +70,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {myFollowers.length}
+                  {/* {myFollowers.length} */}
                 </MyText>
                 <MyText style={styles.followText}>Followers</MyText>
               </TouchableOpacity>

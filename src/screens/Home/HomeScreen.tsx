@@ -1,57 +1,42 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {RefreshControl, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {TweetType} from '../../types';
 import SingleTweet from '../../components/SingleTweet';
 import {colors} from '../../theme/colors';
-import {useDispatch, useSelector} from 'react-redux';
-import {GetTweets} from '../../api/tweetApi';
-import {tweetSelector} from '../../redux/tweet/tweetSlice';
 import Feather from 'react-native-vector-icons/Feather';
 import {spacing} from '../../theme/spacing';
+import {useGetTweetsQuery} from '../../api/tweetApi';
+import MyToast from '../../components/shared/MyToast/MyToast';
+import Loading from '../../components/shared/Loading';
 
 interface HomeProps {
   navigation: any;
 }
 
 const HomeScreen: React.FC<HomeProps> = ({navigation}) => {
-  // component state
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [pageCurrent, setPageCurrent] = useState<number>(1);
-  // redux staff
-  const dispatch: any = useDispatch();
-  const {tweets} = useSelector(tweetSelector);
-
-  const fetchTweets = async (page: number) => {
-    await dispatch(GetTweets(page));
-    setRefreshing(false);
-  };
-
-  useEffect(() => {
-    pageCurrent > 1 && fetchTweets(pageCurrent);
-  }, [pageCurrent]);
-
-  const initialFetch = () => {
-    fetchTweets(1);
-    setPageCurrent(1);
-  };
-
+  const {data, isLoading, error, isError, isFetching, refetch} =
+    useGetTweetsQuery();
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
   return (
     <View style={styles.container}>
-      <FlashList
-        data={tweets}
-        renderItem={renderItem}
-        estimatedItemSize={200}
-        onEndReached={() => setPageCurrent(prev => prev + 1)}
-        onEndReachedThreshold={0}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={initialFetch} />
-        }
-      />
+      {isError && <MyToast message={error?.error} visible={isError} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlashList
+          data={data?.timeline}
+          renderItem={renderItem}
+          estimatedItemSize={200}
+          // onEndReached={() => setPageCurrent(prev => prev + 1)}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+          }
+        />
+      )}
       {/* floating add tweet button */}
       <TouchableOpacity
         onPress={() => navigation.navigate('CreateTweet')}

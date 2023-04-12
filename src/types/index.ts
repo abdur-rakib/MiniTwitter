@@ -1,4 +1,4 @@
-import store from '../redux/store';
+import {store} from '../redux/store';
 
 export interface FormValues {
   [key: string]: string;
@@ -45,9 +45,6 @@ export interface UsersInterface {
 }
 export interface TweetInterface {
   tweets: TweetType[];
-  // tweets: {count: number; timeline: TweetType[]};
-  isLoading: boolean;
-  error: string;
 }
 
 export interface LoginValuesType {
