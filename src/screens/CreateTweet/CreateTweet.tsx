@@ -1,5 +1,5 @@
 import {TextInput, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {commonStyles} from '../../styles/commonstyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,13 +7,12 @@ import {colors} from '../../theme/colors';
 import {spacing} from '../../theme/spacing';
 import MyText from '../../components/shared/MyText';
 import FastImage from 'react-native-fast-image';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '../../redux/user/userSlice';
+import {useSelector} from 'react-redux';
 import {AVATAR_URL} from '../../config/urls';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
-import {AddTweet} from '../../api/tweetApi';
-import {tweetSelector} from '../../redux/tweet/tweetSlice';
 import MyToast from '../../components/shared/MyToast/MyToast';
+import {useAddTweetMutation} from '../../api/tweetApi';
+import {authSelector} from '../../redux/auth/authSlice';
 
 interface CreateTweetProps {
   navigation: any;
@@ -23,20 +22,23 @@ const CreateTweet: React.FC<CreateTweetProps> = ({navigation}) => {
   // componet state
   const [tweet, setTweet] = useState<string>('');
   // redux staff
-  const {token} = useSelector(userSelector);
-  const {isLoading, error} = useSelector(tweetSelector);
-  const dispatch: any = useDispatch();
+  const {token} = useSelector(authSelector);
+  const [AddTweet, {isError, isLoading, error, isSuccess}] =
+    useAddTweetMutation();
 
   // handle submit tweet
   const handleSubmitTweet = async () => {
-    const {type} = await dispatch(AddTweet({content: tweet}));
-    if (type === 'tweet/AddTweet/fulfilled') {
+    await AddTweet({content: tweet});
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
       navigation.goBack();
     }
-  };
+  }, [isSuccess, navigation]);
   return (
     <View style={styles.container}>
-      {!!error && <MyToast message={error} visible={!!error} />}
+      {isError && <MyToast message={error?.error} visible={isError} />}
       {/* header */}
       <View style={[commonStyles.headerContainer, styles.headerContainer]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>

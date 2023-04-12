@@ -16,6 +16,9 @@ export interface TweetType {
   published: Date | string;
   user: TweetUserType;
 }
+export interface CreateTweetProps {
+  navigation: any;
+}
 
 export interface SingleUserType {
   active: boolean;

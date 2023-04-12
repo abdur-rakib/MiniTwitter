@@ -5,25 +5,22 @@ export const tweetsApi = api.injectEndpoints({
   endpoints: build => ({
     getTweets: build.query<{timeline: TweetType[]}, void>({
       query: () => ({url: 'timeline'}),
-      // providesTags: (result = []) => [
-      //   ...result.map(({id}) => ({type: 'Posts', id} as const)),
-      //   {type: 'Posts' as const, id: 'LIST'},
-      // ],
-      transformErrorResponse: error => error.data,
+      providesTags: [{type: 'Tweets', id: 'LIST'}],
+      transformErrorResponse: (error: any) => error.data,
     }),
-    // addPost: build.mutation<Post, Partial<Post>>({
-    //   query: body => ({
-    //     url: `posts`,
-    //     method: 'POST',
-    //     body,
-    //   }),
-    //   invalidatesTags: [{type: 'Posts', id: 'LIST'}],
-    // }),
+    addTweet: build.mutation<{content: string}, any>({
+      query: body => ({
+        url: 'tweet',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{type: 'Tweets', id: 'LIST'}],
+    }),
   }),
 });
 
-export const {useGetTweetsQuery} = tweetsApi;
+export const {useGetTweetsQuery, useAddTweetMutation} = tweetsApi;
 
 export const {
-  endpoints: {getTweets},
+  endpoints: {getTweets, addTweet},
 } = tweetsApi;
