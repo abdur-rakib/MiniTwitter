@@ -58,7 +58,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {myFollowings.count}
+                  {myFollowings.length}
                 </MyText>
                 <MyText style={styles.followText}>Following</MyText>
               </TouchableOpacity>
@@ -70,7 +70,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {myFollowers.count}
+                  {myFollowers.length}
                 </MyText>
                 <MyText style={styles.followText}>Followers</MyText>
               </TouchableOpacity>
@@ -105,14 +105,13 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.extra_extra_light_gray,
-    paddingVertical: spacing[6],
+    paddingBottom: spacing[6],
     paddingHorizontal: spacing[24],
   },
   drawerContent: {},
   userInfoSection: {
     borderBottomWidth: 0.8,
     borderBottomColor: colors.extra_light_gray,
-    paddingVertical: spacing[12],
   },
   avatarSection: {},
   avatar: {

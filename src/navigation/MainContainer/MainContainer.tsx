@@ -6,6 +6,7 @@ import AppContainer from '../AppContainer';
 import AuthContainer from '../AuthContainer';
 import {useSelector} from 'react-redux';
 import {userSelector} from '../../redux/user/userSlice';
+import {colors} from '../../theme/colors';
 
 const MainContainer = () => {
   const {isAuthenticated} = useSelector(userSelector);
@@ -23,5 +24,6 @@ export default MainContainer;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.extra_extra_light_gray,
   },
 });

@@ -108,9 +108,11 @@ const styles = ScaledSheet.create({
   },
   disabledStyle: {
     backgroundColor: colors.dark_light,
+    paddingVertical: spacing[4],
   },
   actionText: {
     color: colors.extra_extra_light_gray,
+    fontSize: spacing[12],
   },
   createContainer: {
     flex: 1,

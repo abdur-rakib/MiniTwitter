@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StyleProp, Text, TextStyle} from 'react-native';
 import React from 'react';
 
@@ -16,7 +17,7 @@ const MyText = ({
   return (
     <Text
       style={{
-        fontFamily: `HelveticaNeue-${type ? type : 'Regular'}`,
+        fontFamily: type ? `HelveticaNeue-${type}` : 'HelveticaNeue',
         ...(style as object),
       }}
       {...otherProps}>

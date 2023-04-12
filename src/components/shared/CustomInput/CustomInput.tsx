@@ -1,4 +1,4 @@
-import {Text, TextInput, TextInputProps, View} from 'react-native';
+import {Platform, Text, TextInput, TextInputProps, View} from 'react-native';
 import React, {ForwardedRef, forwardRef, useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {spacing} from '../../../theme/spacing';
@@ -67,7 +67,7 @@ const styles = ScaledSheet.create({
   inputStyle: {
     borderBottomWidth: 1,
     borderBottomColor: colors.dark_gray,
-    paddingVertical: spacing[2],
+    paddingVertical: Platform.OS === 'android' ? spacing[2] : spacing[5],
     paddingHorizontal: 0,
     fontSize: spacing[14],
     color: colors.black,

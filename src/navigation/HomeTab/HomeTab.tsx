@@ -6,6 +6,7 @@ import DummyScreen from '../../screens/Dummy';
 import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../theme/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {spacing} from '../../theme/spacing';
 
 const Tab = createBottomTabNavigator();
 
@@ -99,6 +100,8 @@ const styles = ScaledSheet.create({
     borderTopWidth: 0.8,
     borderTopColor: colors.extra_light_gray,
     elevation: 0,
+    height: spacing[50],
+    paddingBottom: 0,
   },
 });
 

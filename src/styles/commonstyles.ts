@@ -27,7 +27,7 @@ export const commonStyles = ScaledSheet.create({
     fontFamily: 'HelveticaNeue-Medium',
   },
   regularText: {
-    fontFamily: 'HelveticaNeue-Regular',
+    fontFamily: 'HelveticaNeue-Light',
   },
   lightText: {
     fontFamily: 'HelveticaNeue-Light',
