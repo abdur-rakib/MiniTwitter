@@ -17,12 +17,16 @@ import {AVATAR_URL} from '../../config/urls';
 import FastImage from 'react-native-fast-image';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
 import {authSelector, logout} from '../../redux/auth/authSlice';
+import {useGetFollowersQuery, useGetFollowingsQuery} from '../../api/userApi';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
   // redux staff
   const dispatch = useDispatch();
   const {name, token} = useSelector(authSelector);
+
+  const {data: followersObj} = useGetFollowersQuery();
+  const {data: followingObj} = useGetFollowingsQuery();
 
   // handle sign out
   const handleSignOut = () => {
@@ -58,7 +62,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {/* {myFollowings.length} */}
+                  {followingObj?.count}
                 </MyText>
                 <MyText style={styles.followText}>Following</MyText>
               </TouchableOpacity>
@@ -70,7 +74,7 @@ const CustomDrawer = (props: any) => {
                 }
                 style={styles.followSection}>
                 <MyText type="Medium" style={styles.followNumber}>
-                  {/* {myFollowers.length} */}
+                  {followersObj?.count}
                 </MyText>
                 <MyText style={styles.followText}>Followers</MyText>
               </TouchableOpacity>

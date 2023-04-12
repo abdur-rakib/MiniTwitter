@@ -3,13 +3,19 @@ import {UsersType} from '../types';
 
 export const userApi = api.injectEndpoints({
   endpoints: build => ({
-    getFollowings: build.query<{followings: UsersType[] | []}, void>({
+    getFollowings: build.query<
+      {count: number; followings: UsersType[] | []},
+      void
+    >({
       query: () => ({url: 'following'}),
       providesTags: [{type: 'Users', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
     }),
 
-    getFollowers: build.query<{followers: UsersType[] | []}, void>({
+    getFollowers: build.query<
+      {count: number; followers: UsersType[] | []},
+      void
+    >({
       query: () => ({url: 'followers'}),
       providesTags: [{type: 'Users', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
