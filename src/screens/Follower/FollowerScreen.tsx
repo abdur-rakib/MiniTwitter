@@ -1,33 +1,38 @@
-import {StyleSheet, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {RefreshControl, StyleSheet, View} from 'react-native';
+import React from 'react';
 import {commonStyles} from '../../styles/commonstyles';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '../../redux/user/userSlice';
-import {GetUserFollowers} from '../../api/userApi';
 import {FlashList} from '@shopify/flash-list';
 import {SingleUserType} from '../../types';
 import SingleUser from '../../components/SingleUser';
+import {useGetFollowersQuery} from '../../api/userApi';
+import MyToast from '../../components/shared/MyToast/MyToast';
+import Loading from '../../components/shared/Loading';
 
 const FollowerScreen = () => {
-  // redux staff
-  const dispatch: any = useDispatch();
-  const {myFollowers} = useSelector(userSelector);
+  const {data, isLoading, error, isError, isFetching, refetch} =
+    useGetFollowersQuery();
 
   // render single item
-  const renderItem = ({item}: {item: SingleUserType}) => (
+  const renderItem = ({item}: {item: SingleUserType | any}) => (
     <SingleUser item={item} />
   );
 
-  useEffect(() => {
-    dispatch(GetUserFollowers());
-  }, [dispatch]);
   return (
     <View style={[commonStyles.container, styles.container]}>
-      <FlashList
-        data={myFollowers.followers}
-        renderItem={renderItem}
-        estimatedItemSize={200}
-      />
+      {isError && <MyToast message={error?.error} visible={isError} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlashList
+          data={data?.followers}
+          renderItem={renderItem}
+          estimatedItemSize={200}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+          }
+        />
+      )}
     </View>
   );
 };

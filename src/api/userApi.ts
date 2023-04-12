@@ -1,106 +1,31 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {LoginValuesType, SignupValuesType} from '../types';
-import {getService, postService} from '../services/apiServices';
-import {SIZE} from '../utils/constants';
+import {api} from '.';
+import {UsersType} from '../types';
 
-// login with email and password
-const Login = createAsyncThunk(
-  'user/Login',
-  async (data: LoginValuesType, {rejectWithValue}) => {
-    try {
-      const response = await postService({
-        endpoint: 'login',
-        data,
-      });
-      const name = data.email.split('@')[0];
-      return {...response, name};
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+export const userApi = api.injectEndpoints({
+  endpoints: build => ({
+    getFollowings: build.query<{followings: UsersType[] | []}, void>({
+      query: () => ({url: 'following'}),
+      providesTags: [{type: 'Users', id: 'LIST'}],
+      transformErrorResponse: (error: any) => error.data,
+    }),
 
-// signup with username, email and password
-const Signup = createAsyncThunk(
-  'user/Signup',
-  async (data: SignupValuesType, {rejectWithValue}) => {
-    try {
-      const response = await postService({
-        endpoint: 'signup',
-        data,
-      });
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+    getFollowers: build.query<{followers: UsersType[] | []}, void>({
+      query: () => ({url: 'followers'}),
+      providesTags: [{type: 'Users', id: 'LIST'}],
+      transformErrorResponse: (error: any) => error.data,
+    }),
 
-// get user tweets
-const GetUserTweets = createAsyncThunk(
-  'user/GetUserTweets',
-  async (page: number, {rejectWithValue}) => {
-    try {
-      const response = await getService({
-        endpoint: `my-tweets?page=${page}&size=${SIZE}`,
-      });
-      return {...response, page};
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+    getUsers: build.query<{users: UsersType[] | []}, void>({
+      query: () => ({url: 'users'}),
+      providesTags: [{type: 'Users', id: 'LIST'}],
+      transformErrorResponse: (error: any) => error.data,
+    }),
+  }),
+});
 
-// get user followings
-const GetUserFollowings = createAsyncThunk(
-  'user/GetUserFollowings',
-  async (_, {rejectWithValue}) => {
-    try {
-      const response = await getService({
-        endpoint: 'following',
-      });
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
+export const {useGetFollowingsQuery, useGetFollowersQuery, useGetUsersQuery} =
+  userApi;
 
-// get user followers
-const GetUserFollowers = createAsyncThunk(
-  'user/GetUserFollowers',
-  async (_, {rejectWithValue}) => {
-    try {
-      const response = await getService({
-        endpoint: 'followers',
-      });
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
-
-// get user followers
-const GetUsers = createAsyncThunk(
-  'user/GetUsers',
-  async (_, {rejectWithValue}) => {
-    try {
-      const response = await getService({
-        endpoint: 'users',
-      });
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
-);
-
-export {
-  Login,
-  Signup,
-  GetUserTweets,
-  GetUserFollowings,
-  GetUserFollowers,
-  GetUsers,
-};
+export const {
+  endpoints: {getFollowers, getFollowings, getUsers},
+} = userApi;

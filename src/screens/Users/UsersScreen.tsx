@@ -1,33 +1,37 @@
-import {StyleSheet, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {RefreshControl, StyleSheet, View} from 'react-native';
+import React from 'react';
 import {commonStyles} from '../../styles/commonstyles';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '../../redux/user/userSlice';
-import {GetUsers} from '../../api/userApi';
+import {useGetUsersQuery} from '../../api/userApi';
 import {FlashList} from '@shopify/flash-list';
 import {SingleUserType} from '../../types';
 import SingleUser from '../../components/SingleUser';
+import MyToast from '../../components/shared/MyToast/MyToast';
+import Loading from '../../components/shared/Loading';
 
 const UsersScreen = () => {
-  // redux staff
-  const dispatch: any = useDispatch();
-  const {users} = useSelector(userSelector);
+  const {data, isError, isLoading, isFetching, refetch} = useGetUsersQuery();
 
   // render single item
-  const renderItem = ({item}: {item: SingleUserType}) => (
+  const renderItem = ({item}: {item: SingleUserType | any}) => (
     <SingleUser item={item} />
   );
 
-  useEffect(() => {
-    dispatch(GetUsers());
-  }, [dispatch]);
   return (
     <View style={[commonStyles.container, styles.container]}>
-      <FlashList
-        data={users.users}
-        renderItem={renderItem}
-        estimatedItemSize={200}
-      />
+      {isError && <MyToast message={error?.error} visible={isError} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlashList
+          data={data.users}
+          renderItem={renderItem}
+          estimatedItemSize={200}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+          }
+        />
+      )}
     </View>
   );
 };

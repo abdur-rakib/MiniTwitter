@@ -8,6 +8,7 @@ export const tweetsApi = api.injectEndpoints({
       providesTags: [{type: 'Tweets', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
     }),
+
     addTweet: build.mutation<{content: string}, any>({
       query: body => ({
         url: 'tweet',
