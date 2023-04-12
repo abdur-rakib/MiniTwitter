@@ -1,2 +1,2 @@
-import MyText from '../MyText';
-export default MyText;
+import MyToast from './MyToast';
+export default MyToast;

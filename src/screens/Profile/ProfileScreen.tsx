@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import MyText from '../../components/shared/MyText';
 import {spacing} from '../../theme/spacing';
@@ -10,13 +9,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FlashList} from '@shopify/flash-list';
 import SingleTweet from '../../components/SingleTweet';
 import {ComponentProps, TweetType} from '../../types';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '../../redux/user/userSlice';
-import {GetUserTweets} from '../../api/userApi';
+import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {AVATAR_URL} from '../../config/urls';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
 import {RefreshControl} from 'react-native-gesture-handler';
+import {authSelector} from '../../redux/auth/authSlice';
+import {useGetFollowersQuery, useGetFollowingsQuery} from '../../api/userApi';
+import {useGetUserTweetsQuery} from '../../api/tweetApi';
+import MyToast from '../../components/shared/MyToast';
+import Loading from '../../components/shared/Loading';
 
 interface ProfileScreenProps extends ComponentProps {}
 
@@ -39,27 +41,13 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 };
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
-  // component state
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [pageCurrent, setPageCurrent] = useState<number>(1);
-  // redux staff
-  const dispatch: any = useDispatch();
-  const {name, myTweets, token, myFollowers, myFollowings} =
-    useSelector(userSelector);
+  const {token, name} = useSelector(authSelector);
 
-  const fetchUserTweets = async (page: number) => {
-    dispatch(GetUserTweets(page));
-    setRefreshing(false);
-  };
-
-  useEffect(() => {
-    pageCurrent > 1 && fetchUserTweets(pageCurrent);
-  }, [pageCurrent]);
-
-  const initialFetch = () => {
-    fetchUserTweets(1);
-    setPageCurrent(1);
-  };
+  const {data: followersObj} = useGetFollowersQuery();
+  const {data: followingObj} = useGetFollowingsQuery();
+  const {data, error, isLoading, isFetching, isError, refetch} =
+    useGetUserTweetsQuery();
+  console.log('🚀 ~ file: ProfileScreen.tsx:47 ~ data:', data);
 
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
@@ -71,7 +59,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
           <FastImage
             style={styles.profileIcon}
             source={{
-              uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
+              uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
             }}
             resizeMode={FastImage.resizeMode.contain}
           />
@@ -118,7 +106,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
             }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
-              {myFollowings.length}
+              {followingObj?.count}
             </MyText>
             <MyText style={styles.followText}>Following</MyText>
           </TouchableOpacity>
@@ -130,7 +118,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
             }
             style={styles.followSection}>
             <MyText type="Medium" style={styles.followNumber}>
-              {myFollowers.length}
+              {followersObj?.count}
             </MyText>
             <MyText style={styles.followText}>Followers</MyText>
           </TouchableOpacity>
@@ -139,16 +127,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
 
       {/* my tweet list  */}
       <View style={styles.listContainer}>
-        <FlashList
-          data={myTweets}
-          renderItem={renderItem}
-          estimatedItemSize={200}
-          onEndReached={() => setPageCurrent(prev => prev + 1)}
-          onEndReachedThreshold={0}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={initialFetch} />
-          }
-        />
+        {isError && <MyToast message={error?.error} visible={isError} />}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlashList
+            data={data?.my_tweets}
+            renderItem={renderItem}
+            estimatedItemSize={200}
+            onEndReachedThreshold={0}
+            refreshControl={
+              <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+            }
+          />
+        )}
       </View>
     </View>
   );
