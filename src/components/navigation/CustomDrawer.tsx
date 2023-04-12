@@ -18,6 +18,7 @@ import FastImage from 'react-native-fast-image';
 import {getLoggedInUserId} from '../../utils/commonFunctions';
 import {authSelector, logout} from '../../redux/auth/authSlice';
 import {useGetFollowersQuery, useGetFollowingsQuery} from '../../api/userApi';
+import {api} from '../../api';
 
 const CustomDrawer = (props: any) => {
   const {navigation} = props;
@@ -31,6 +32,7 @@ const CustomDrawer = (props: any) => {
   // handle sign out
   const handleSignOut = () => {
     dispatch(logout());
+    dispatch(api.util.resetApiState());
   };
 
   return (

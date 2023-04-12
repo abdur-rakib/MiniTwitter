@@ -47,7 +47,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   const {data: followingObj} = useGetFollowingsQuery();
   const {data, error, isLoading, isFetching, isError, refetch} =
     useGetUserTweetsQuery();
-  console.log('🚀 ~ file: ProfileScreen.tsx:47 ~ data:', data);
 
   // render single item
   const renderItem = ({item}: {item: TweetType}) => <SingleTweet item={item} />;
