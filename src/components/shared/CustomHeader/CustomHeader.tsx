@@ -21,20 +21,20 @@ const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
     useNavigation();
 
   // redux
-  const {token} = useSelector(userSelector);
+  // const {token} = useSelector(userSelector);
   return (
     <View style={[commonStyles.headerContainer, styles.container]}>
       {toggle && (
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
           style={styles.imageContainer}>
-          <FastImage
+          {/* <FastImage
             style={styles.image}
             source={{
               uri: `${AVATAR_URL}${getLoggedInUserId(token)}.jpg`,
             }}
             resizeMode={FastImage.resizeMode.contain}
-          />
+          /> */}
         </TouchableOpacity>
       )}
       <FastImage

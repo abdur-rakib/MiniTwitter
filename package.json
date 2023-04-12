@@ -70,7 +70,9 @@
     "metro-react-native-babel-preset": "0.73.9",
     "prettier": "^2.4.1",
     "react-native-clean-project": "^4.0.1",
+    "react-native-flipper": "^0.189.0",
     "react-test-renderer": "18.2.0",
+    "rn-redux-middleware-flipper": "^0.1.0",
     "typescript": "4.8.4"
   },
   "jest": {

@@ -1,46 +1,31 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {useDispatch} from 'react-redux';
-import userReducer from './user/userSlice';
-import tweetReducer from './tweet/tweetSlice';
-import {AppDispatchType} from '../types';
-import {reduxStorage} from '../services/storageService';
-import {persistReducer} from 'redux-persist';
+import {configureStore, ConfigureStoreOptions} from '@reduxjs/toolkit';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import auth from '../redux/auth/authSlice';
+import {api} from '../api';
 
-const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage: reduxStorage,
-  blacklist: ['user', 'tweet'],
-};
+// extra middlewares
+const extraMiddlewares = [];
+if (__DEV__) {
+  const createDebugger = require('rn-redux-middleware-flipper').default;
+  extraMiddlewares.push(createDebugger());
+}
 
-const userPersistConfig = {
-  key: 'user',
-  version: 1,
-  storage: reduxStorage,
-  blacklist: ['isLoading', 'error'],
-};
-const tweetPersistConfig = {
-  key: 'tweet',
-  version: 1,
-  storage: reduxStorage,
-  blacklist: ['isLoading', 'error'],
-};
+export const createStore = (
+  options?: ConfigureStoreOptions['preloadedState'] | undefined,
+) =>
+  configureStore({
+    reducer: {
+      [api.reducerPath]: api.reducer,
+      auth,
+    },
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(api.middleware),
+    ...options,
+  });
 
-const rootReducer = combineReducers({
-  user: persistReducer(userPersistConfig, userReducer),
-  tweet: persistReducer(tweetPersistConfig, tweetReducer),
-});
+export const store = createStore(extraMiddlewares);
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-      immutableCheck: false,
-    }),
-});
-export default store;
-
-export const useAppDispatch = () => useDispatch<AppDispatchType>();
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

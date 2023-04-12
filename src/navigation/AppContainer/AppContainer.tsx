@@ -28,14 +28,14 @@ import {
 const Drawer = createDrawerNavigator();
 
 const AppContainer = () => {
-  useEffect(() => {
-    // get all tweets, all followings, all followers, all users
-    store.dispatch(GetTweets(1));
-    store.dispatch(GetUsers(1));
-    store.dispatch(GetUserFollowers(1));
-    store.dispatch(GetUserFollowings(1));
-    store.dispatch(GetUserTweets(1));
-  }, []);
+  // useEffect(() => {
+  //   // get all tweets, all followings, all followers, all users
+  //   store.dispatch(GetTweets(1));
+  //   store.dispatch(GetUsers(1));
+  //   store.dispatch(GetUserFollowers(1));
+  //   store.dispatch(GetUserFollowings(1));
+  //   store.dispatch(GetUserTweets(1));
+  // }, []);
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawer}

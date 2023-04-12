@@ -9,7 +9,8 @@ import {userSelector} from '../../redux/user/userSlice';
 import {colors} from '../../theme/colors';
 
 const MainContainer = () => {
-  const {isAuthenticated} = useSelector(userSelector);
+  // const {isAuthenticated} = useSelector(userSelector);
+  const isAuthenticated = false;
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>

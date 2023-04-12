@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useRef} from 'react';
 import CustomInput from '../../../components/shared/CustomInput';
@@ -12,10 +13,10 @@ import {Formik} from 'formik';
 import {loginValidationSchema} from '../../../utils/schemas';
 import MyText from '../../../components/shared/MyText';
 import {LoginValuesType} from '../../../types';
-import {useDispatch, useSelector} from 'react-redux';
-import {clearUserUIState, userSelector} from '../../../redux/user/userSlice';
-import {Login} from '../../../api/userApi';
 import MyToast from '../../../components/shared/MyToast/MyToast';
+import {useLoginMutation} from '../../../api/authApi';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../../../redux/auth/authSlice';
 
 interface LoginScreenProps {
   navigation: any;
@@ -27,9 +28,10 @@ const initialValues = {
 };
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
-  // redux staff
-  const dispatch = useDispatch();
-  const {isLoading, error} = useSelector(userSelector);
+  const [login, {isLoading, error, isError}] = useLoginMutation();
+  // redux
+  const auth = useSelector(authSelector);
+  console.log('🚀 ~ file: LoginScreen.tsx:34 ~ auth:', auth);
 
   // refs
   const emailRef = useRef<TextInput>();
@@ -46,10 +48,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   // handle login
   const handleLogin = async (values: LoginValuesType) => {
-    // first clear prev auth UI state
-    dispatch(clearUserUIState());
-    // login
-    dispatch(Login(values));
+    await login(values);
   };
 
   return (
@@ -61,7 +60,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         <KeyboardAwareScrollView
           contentContainerStyle={[commonStyles.container, styles.container]}>
           {/* error message */}
-          {!!error && <MyToast message={error} visible={!!error} />}
+          {isError && <MyToast message={error?.error} visible={isError} />}
           {/* heading */}
           <View style={styles.titleContainer}>
             <Title title="Log in to Twitter." />
