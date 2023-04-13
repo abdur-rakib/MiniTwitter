@@ -1,6 +1,12 @@
-import {createApi, fetchBaseQuery, retry} from '@reduxjs/toolkit/query/react';
-import {RootState} from '../redux/store';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {RootState, store} from '../redux/store';
 import {BASE_URL} from '../config/urls';
+import {logout} from '../redux/auth/authSlice';
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query';
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
@@ -15,7 +21,22 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRetry = retry(baseQuery, {maxRetries: 1});
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (result?.data?.error) {
+    store.dispatch(logout());
+    api && store.dispatch(api.util.resetApiState());
+    return;
+  } else {
+    return result;
+  }
+};
+
+const baseQueryWithRetry = baseQueryWithReauth;
 
 /**
  * Create a base API to inject endpoints into elsewhere.
@@ -47,10 +68,4 @@ export const api = createApi({
    * If you want all endpoints defined in the same file, they could be included here instead
    */
   endpoints: () => ({}),
-});
-
-export const enhancedApi = api.enhanceEndpoints({
-  endpoints: () => ({
-    getTweet: () => 'test',
-  }),
 });

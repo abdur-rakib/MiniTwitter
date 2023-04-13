@@ -11,6 +11,7 @@ export const tweetsApi = api.injectEndpoints({
 
     getUserTweets: build.query<{count: number; my_tweets: TweetType[]}, void>({
       query: () => ({url: 'my-tweets'}),
+      providesTags: [{type: 'Tweets', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
     }),
 

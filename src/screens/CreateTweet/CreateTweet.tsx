@@ -1,4 +1,4 @@
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {Platform, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {commonStyles} from '../../styles/commonstyles';
@@ -139,5 +139,6 @@ const styles = ScaledSheet.create({
     textAlign: 'justify',
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
+    marginTop: Platform.OS == 'ios' ? spacing[6] : 0,
   },
 });
