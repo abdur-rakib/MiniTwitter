@@ -121,9 +121,9 @@ const styles = ScaledSheet.create({
   },
   avatarSection: {},
   avatar: {
-    height: spacing[32],
-    width: spacing[32],
-    borderRadius: spacing[32],
+    height: spacing[50],
+    width: spacing[50],
+    borderRadius: spacing[50],
     marginBottom: spacing[10],
   },
   name: {
