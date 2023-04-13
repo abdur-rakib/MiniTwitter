@@ -26,6 +26,7 @@ export interface SingleUserType {
   id: number;
   join_date: string;
   username: string;
+  following?: boolean | undefined;
 }
 
 export interface UsersType {

@@ -23,10 +23,10 @@ const MyToast: React.FC<Props> = ({message, visible}) => {
   return (
     <Toast
       visible={show}
-      position={height - 100}
-      backgroundColor={colors.extra_extra_light_gray}
-      textColor={colors.black}
-      textStyle={[commonStyles.regularText, {fontSize: moderateScale(13)}]}
+      position={height - 150}
+      backgroundColor={colors.black}
+      textColor={colors.extra_extra_light_gray}
+      textStyle={[commonStyles.lightText, {fontSize: moderateScale(13)}]}
       shadow={false}
       animation={false}
       hideOnPress={true}>

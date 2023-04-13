@@ -17,14 +17,11 @@ const SearchScreen = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [debouncedSearchText, setDebouncedSearchText] = useState<string>('');
 
-  const {data, isLoading, isError, error, isSuccess} = useSearchUserQuery(
-    {token: debouncedSearchText},
-    {skip: !debouncedSearchText},
-  );
-  console.log(
-    '🚀 ~ file: SearchScreen.tsx:21 ~ SearchScreen ~ isSuccess:',
-    isSuccess,
-  );
+  const {data, isLoading, isError, error, isSuccess, isFetching} =
+    useSearchUserQuery(
+      {token: debouncedSearchText},
+      {skip: !debouncedSearchText},
+    );
 
   useEffect(() => {
     const debounceId = setTimeout(() => {
@@ -40,6 +37,7 @@ const SearchScreen = () => {
   const renderItem = ({item}: {item: SingleUserType | any}) => (
     <SingleUser item={item} />
   );
+
   return (
     <View style={[commonStyles.container, styles.container]}>
       {isError && <MyToast message={error?.error} visible={isError} />}
@@ -51,7 +49,7 @@ const SearchScreen = () => {
         placeholder="Search User"
         cursorColor={colors.blue}
       />
-      {isSuccess ? (
+      {isSuccess && !isError ? (
         <MyText type="Light" style={styles.text}>
           Total users found: {data?.count ?? 0}
         </MyText>
@@ -63,7 +61,7 @@ const SearchScreen = () => {
 
       {/* search results */}
       <View style={styles.listContainer}>
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <Loading />
         ) : (
           isSuccess && (
@@ -89,7 +87,7 @@ const styles = ScaledSheet.create({
     marginVertical: spacing[8],
     borderRadius: spacing[24],
     paddingVertical: Platform.OS === 'android' ? spacing[6] : spacing[10],
-    fontSize: spacing[13],
+    fontSize: spacing[14],
     color: colors.black,
   },
   text: {

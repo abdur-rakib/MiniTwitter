@@ -9,7 +9,8 @@ import MyToast from '../../components/shared/MyToast/MyToast';
 import Loading from '../../components/shared/Loading';
 
 const UsersScreen = () => {
-  const {data, isError, isLoading, isFetching, refetch} = useGetUsersQuery();
+  const {data, isError, isLoading, isFetching, error, refetch} =
+    useGetUsersQuery();
 
   // render single item
   const renderItem = ({item}: {item: SingleUserType | any}) => (

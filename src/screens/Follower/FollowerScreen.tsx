@@ -7,6 +7,7 @@ import SingleUser from '../../components/SingleUser';
 import {useGetFollowersQuery} from '../../api/userApi';
 import MyToast from '../../components/shared/MyToast/MyToast';
 import Loading from '../../components/shared/Loading';
+import EmptyComponent from '../../components/shared/Empty';
 
 const FollowerScreen = () => {
   const {data, isLoading, error, isError, isFetching, refetch} =
@@ -28,6 +29,7 @@ const FollowerScreen = () => {
           renderItem={renderItem}
           estimatedItemSize={200}
           onEndReachedThreshold={0}
+          ListEmptyComponent={<EmptyComponent text="follower" />}
           refreshControl={
             <RefreshControl refreshing={isFetching} onRefresh={refetch} />
           }

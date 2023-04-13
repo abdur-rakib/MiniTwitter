@@ -10,9 +10,15 @@ interface ButtonProps {
   label: string;
   onPress: () => void;
   disabled: boolean;
+  following?: boolean | undefined;
 }
 
-const SecondaryButton: React.FC<ButtonProps> = ({label, onPress, disabled}) => {
+const SecondaryButton: React.FC<ButtonProps> = ({
+  label,
+  onPress,
+  disabled,
+  following,
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -20,9 +26,13 @@ const SecondaryButton: React.FC<ButtonProps> = ({label, onPress, disabled}) => {
       style={[
         styles.buttonContainer,
         disabled && styles.disabledButtonStyle,
-        label === 'follow' && styles.followButtonStyle,
+        !following && styles.followButtonStyle,
       ]}>
-      <MyText type="Bold" style={styles.buttonText}>
+      <MyText
+        type="Bold"
+        style={{
+          color: following ? colors.black : colors.extra_extra_light_gray,
+        }}>
         {capitalizeFirstCharacter(label)}
       </MyText>
     </TouchableOpacity>
@@ -47,6 +57,9 @@ const styles = ScaledSheet.create({
   },
   buttonText: {
     color: colors.black,
+  },
+  followButtonText: {
+    color: colors.extra_extra_light_gray,
   },
   followTextStyle: {
     color: colors.extra_extra_light_gray,

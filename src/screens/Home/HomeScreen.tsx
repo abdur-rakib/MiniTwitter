@@ -10,6 +10,7 @@ import {spacing} from '../../theme/spacing';
 import {useGetTweetsQuery} from '../../api/tweetApi';
 import MyToast from '../../components/shared/MyToast/MyToast';
 import Loading from '../../components/shared/Loading';
+import EmptyComponent from '../../components/shared/Empty';
 
 interface HomeProps {
   navigation: any;
@@ -32,6 +33,7 @@ const HomeScreen: React.FC<HomeProps> = ({navigation}) => {
           estimatedItemSize={200}
           // onEndReached={() => setPageCurrent(prev => prev + 1)}
           onEndReachedThreshold={0}
+          ListEmptyComponent={<EmptyComponent text="tweets" />}
           refreshControl={
             <RefreshControl refreshing={isFetching} onRefresh={refetch} />
           }

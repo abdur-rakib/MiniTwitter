@@ -8,7 +8,7 @@ export const userApi = api.injectEndpoints({
       void
     >({
       query: () => ({url: 'following'}),
-      providesTags: [{type: 'Users', id: 'LIST'}],
+      providesTags: [{type: 'Followings', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
     }),
 
@@ -35,6 +35,26 @@ export const userApi = api.injectEndpoints({
       }),
       transformErrorResponse: error => error.data,
     }),
+
+    followUser: build.mutation<{user_id: number}, any>({
+      query: body => ({
+        url: 'follow',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{type: 'Followings', id: 'LIST'}],
+      transformErrorResponse: error => error.data,
+    }),
+
+    unfollowUser: build.mutation<{user_id: number}, any>({
+      query: body => ({
+        url: 'unfollow',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{type: 'Followings', id: 'LIST'}],
+      transformErrorResponse: error => error.data,
+    }),
   }),
 });
 
@@ -43,8 +63,17 @@ export const {
   useGetFollowersQuery,
   useGetUsersQuery,
   useSearchUserQuery,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
 } = userApi;
 
 export const {
-  endpoints: {getFollowers, getFollowings, getUsers, searchUser},
+  endpoints: {
+    getFollowers,
+    getFollowings,
+    getUsers,
+    searchUser,
+    followUser,
+    unfollowUser,
+  },
 } = userApi;

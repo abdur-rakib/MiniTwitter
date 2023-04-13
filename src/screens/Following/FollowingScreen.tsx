@@ -8,6 +8,7 @@ import {useGetFollowingsQuery} from '../../api/userApi';
 import Loading from '../../components/shared/Loading';
 import MyToast from '../../components/shared/MyToast/MyToast';
 import {RefreshControl} from 'react-native-gesture-handler';
+import EmptyComponent from '../../components/shared/Empty';
 
 const FollowingScreen = () => {
   const {data, isError, isLoading, isFetching, refetch} =
@@ -15,7 +16,7 @@ const FollowingScreen = () => {
 
   // render single item
   const renderItem = ({item}: {item: SingleUserType | any}) => (
-    <SingleUser item={item} />
+    <SingleUser item={{...item, following: true}} />
   );
 
   return (
@@ -29,6 +30,7 @@ const FollowingScreen = () => {
           renderItem={renderItem}
           estimatedItemSize={200}
           onEndReachedThreshold={0}
+          ListEmptyComponent={<EmptyComponent text="following user" />}
           refreshControl={
             <RefreshControl refreshing={isFetching} onRefresh={refetch} />
           }
