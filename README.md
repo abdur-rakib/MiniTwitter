@@ -3,6 +3,7 @@
 Mini Twitter is a Twitter clone, built with [React Native](https://reactnative.dev/) where users can tweet, follow other users, and view tweets from users they follow in their timeline. Users can also have their own followers, check their own tweets, and search users by username.
 
 ## App Flow
+Please click to watch full flow.
 
 [![Watch the video](https://i.postimg.cc/59R1WMgt/Simulator-Screen-Shot-i-Phone-14-Plus-2023-04-13-at-17-57-48.png)](https://drive.google.com/file/d/1eyEbo_rHZqL8k31Ac6TFia_76fnnv8kO/view?usp=sharing)
 
@@ -58,7 +59,6 @@ $ yarn android
 - Display following users list 
 - Display logged in user's own tweet list 
 - Search users by username 
--  
 
 ## License
 
