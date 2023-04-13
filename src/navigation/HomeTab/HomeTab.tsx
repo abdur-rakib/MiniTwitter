@@ -7,6 +7,7 @@ import {ScaledSheet} from 'react-native-size-matters';
 import {colors} from '../../theme/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {spacing} from '../../theme/spacing';
+import SearchScreen from '../../screens/Search';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,7 +46,7 @@ const HomeTab = () => {
           ),
         }}
         name="Search"
-        component={DummyScreen}
+        component={SearchScreen}
       />
       <Tab.Screen
         options={{

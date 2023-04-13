@@ -26,12 +26,25 @@ export const userApi = api.injectEndpoints({
       providesTags: [{type: 'Users', id: 'LIST'}],
       transformErrorResponse: (error: any) => error.data,
     }),
+
+    searchUser: build.query({
+      query: ({token}: {token: string}) => ({
+        url: 'search',
+        method: 'POST',
+        body: {token},
+      }),
+      transformErrorResponse: error => error.data,
+    }),
   }),
 });
 
-export const {useGetFollowingsQuery, useGetFollowersQuery, useGetUsersQuery} =
-  userApi;
+export const {
+  useGetFollowingsQuery,
+  useGetFollowersQuery,
+  useGetUsersQuery,
+  useSearchUserQuery,
+} = userApi;
 
 export const {
-  endpoints: {getFollowers, getFollowings, getUsers},
+  endpoints: {getFollowers, getFollowings, getUsers, searchUser},
 } = userApi;
