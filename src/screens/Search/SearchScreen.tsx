@@ -46,7 +46,7 @@ const SearchScreen = () => {
         value={searchText}
         style={[styles.inputStyle, commonStyles.regularText]}
         onChangeText={text => setSearchText(text)}
-        placeholder="Search User"
+        placeholder="Search User (Type minimum 3 character)"
         cursorColor={colors.blue}
       />
       {isSuccess && !isError ? (

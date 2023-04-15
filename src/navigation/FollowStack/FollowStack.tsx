@@ -31,7 +31,7 @@ const FollowStack = () => {
       />
       <Stack.Screen
         options={{
-          header: props => <SecondaryHeader backTitle="Users" {...props} />,
+          header: props => <SecondaryHeader backTitle="Connect" {...props} />,
         }}
         name="Users"
         component={UsersScreen}
