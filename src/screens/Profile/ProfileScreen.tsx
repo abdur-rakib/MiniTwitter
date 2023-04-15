@@ -1,5 +1,5 @@
 import {TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import MyText from '../../components/shared/MyText';
 import {spacing} from '../../theme/spacing';
@@ -43,6 +43,10 @@ const SingleInfo = ({text, iconName}: SingleInfoProps) => {
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   const {token, name} = useSelector(authSelector);
 
+  const [avatarUri, setAvatarUri] = useState<string>(
+    token ? `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg` : '',
+  );
+
   const {data: followersObj} = useGetFollowersQuery();
   const {data: followingObj} = useGetFollowingsQuery();
   const {data, error, isLoading, isFetching, isError, refetch} =
@@ -58,8 +62,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
           <FastImage
             style={styles.profileIcon}
             source={{
-              uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
+              uri: avatarUri,
             }}
+            onError={() =>
+              setAvatarUri('https://randomuser.me/api/portraits/men/1.jpg')
+            }
             resizeMode={FastImage.resizeMode.contain}
           />
         </View>

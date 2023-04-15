@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {SingleUserType} from '../../types';
 import FastImage from 'react-native-fast-image';
 import {AVATAR_URL} from '../../config/urls';
@@ -15,6 +15,9 @@ import {
 import MyToast from '../shared/MyToast';
 
 const SingleUser: React.FC<{item: SingleUserType}> = ({item}) => {
+  const [avatarUri, setAvatarUri] = useState<string>(
+    `${AVATAR_URL}${item.id}.jpg`,
+  );
   const [followUser, {isError, isLoading, error, isSuccess, data}] =
     useFollowUserMutation();
   const [
@@ -54,7 +57,10 @@ const SingleUser: React.FC<{item: SingleUserType}> = ({item}) => {
         {/* image */}
         <FastImage
           style={styles.image}
-          source={{uri: `${AVATAR_URL}${item.id}.jpg`}}
+          source={{uri: avatarUri}}
+          onError={() =>
+            setAvatarUri('https://randomuser.me/api/portraits/men/1.jpg')
+          }
           resizeMode={FastImage.resizeMode.contain}
         />
         <View style={styles.infoContainer}>

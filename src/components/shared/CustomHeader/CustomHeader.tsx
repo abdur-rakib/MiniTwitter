@@ -1,5 +1,5 @@
 import {TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
 import {spacing} from '../../../theme/spacing';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
@@ -17,6 +17,9 @@ interface HeaderProps {
 
 const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
   const {token} = useSelector(authSelector);
+  const [avatarUri, setAvatarUri] = useState<string>(
+    token ? `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg` : '',
+  );
   // navigation staff
   const navigation: DrawerNavigationProp<ParamListBase, 'Home' | 'Profile'> =
     useNavigation();
@@ -32,8 +35,11 @@ const CustomHeader: React.FC<HeaderProps> = ({toggle}) => {
           <FastImage
             style={styles.image}
             source={{
-              uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
+              uri: avatarUri,
             }}
+            onError={() =>
+              setAvatarUri('https://randomuser.me/api/portraits/men/1.jpg')
+            }
             resizeMode={FastImage.resizeMode.contain}
           />
         </TouchableOpacity>

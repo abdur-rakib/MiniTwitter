@@ -21,8 +21,8 @@ interface LoginScreenProps {
 }
 
 const initialValues = {
-  email: 'janedoe@doe.com',
-  password: 'notsosecurepassword',
+  email: '',
+  password: '',
 };
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {

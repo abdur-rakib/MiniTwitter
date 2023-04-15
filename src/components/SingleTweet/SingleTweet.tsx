@@ -1,5 +1,5 @@
 import {TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {TweetType} from '../../types';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {spacing} from '../../theme/spacing';
@@ -17,15 +17,19 @@ interface PropType {
 }
 
 const SingleTweet: React.FC<PropType> = ({item}) => {
+  const [avatarUri, setAvatarUri] = useState<string>(
+    `${AVATAR_URL}${item.id}.jpg`,
+  );
   return (
     <TouchableOpacity style={styles.container}>
       {/* image block */}
       <View style={styles.imageBlock}>
         <FastImage
           style={styles.userImage}
-          source={{
-            uri: `${AVATAR_URL}${item.user.id}.jpg`,
-          }}
+          source={{uri: avatarUri}}
+          onError={() =>
+            setAvatarUri('https://randomuser.me/api/portraits/men/1.jpg')
+          }
           resizeMode={FastImage.resizeMode.contain}
         />
       </View>

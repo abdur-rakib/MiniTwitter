@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import {TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ScaledSheet, moderateScale} from 'react-native-size-matters';
 import {
   DrawerContentScrollView,
@@ -25,6 +25,9 @@ const CustomDrawer = (props: any) => {
   // redux staff
   const dispatch = useDispatch();
   const {name, token} = useSelector(authSelector);
+  const [avatarUri, setAvatarUri] = useState<string>(
+    token ? `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg` : '',
+  );
 
   const {data: followersObj} = useGetFollowersQuery();
   const {data: followingObj} = useGetFollowingsQuery();
@@ -44,8 +47,11 @@ const CustomDrawer = (props: any) => {
               <FastImage
                 style={styles.avatar}
                 source={{
-                  uri: `${AVATAR_URL}${getLoggedInUserId(token as string)}.jpg`,
+                  uri: avatarUri,
                 }}
+                onError={() =>
+                  setAvatarUri('https://randomuser.me/api/portraits/men/1.jpg')
+                }
                 resizeMode={FastImage.resizeMode.contain}
               />
               <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
